@@ -8,12 +8,14 @@ use Illuminate\View\Component;
 
 class GuestHeading extends Component
 {
+    public $text;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($text)
     {
-        //
+        $this->text = $text;
     }
 
     /**

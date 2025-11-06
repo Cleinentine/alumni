@@ -1,3 +1,17 @@
-<div>
-    <!-- Do what you can, with what you have, where you are. - Theodore Roosevelt -->
+<div class="relative">
+    <select
+        class="border-2 border-red-900 cursor-pointer outline-none pl-[50px] placeholder:italic px-7 py-3 rounded-md text-sm w-full"
+        id="{{ $id }}"
+        name={{ $name }}
+    >
+        <option>-- Select --</option>
+
+        @for ($i = 0; $i < count($value); $i++)
+            <option value="{{ $value[$i] }}">{{ $displayText[$i] }}</option>
+        @endfor
+    </select>
+
+    <span class="absolute left-5 pointer-events-none select-none text-red-900 top-3">
+        <i class="fa-solid {{ $icon }}"></i>
+    </span>
 </div>

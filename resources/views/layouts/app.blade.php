@@ -18,9 +18,12 @@
         <title>{{ env('APP_NAME') }}</title>
     </head>
 
-    <body>
+    <body class="font-nunito">
         @yield('content')
 
+        <div id="fb-root"></div>
+        
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v24.0&appId=1140187344090566"></script>
         <script src="https://kit.fontawesome.com/9fa37eff98.js" crossorigin="anonymous"></script>
     </body>
 </html>

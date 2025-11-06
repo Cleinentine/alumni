@@ -6,16 +6,19 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class ErrorMessage extends Component
+class Label extends Component
 {
-    public $message;
+    public $for;
+
+    public $text;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($message)
+    public function __construct($for, $text)
     {
-        $this->message = $message;
+        $this->for = $for;
+        $this->text = $text;
     }
 
     /**
@@ -23,6 +26,6 @@ class ErrorMessage extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.error-message');
+        return view('components.label');
     }
 }

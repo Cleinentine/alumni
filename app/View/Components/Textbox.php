@@ -8,12 +8,20 @@ use Illuminate\View\Component;
 
 class Textbox extends Component
 {
+    public $id;
+
+    public $name;
+
+    public $placeholder;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($id, $name, $placeholder)
     {
-        //
+        $this->id = $id;
+        $this->name = $name;
+        $this->placeholder = $placeholder;
     }
 
     /**
