@@ -10,21 +10,30 @@ use Illuminate\Support\Facades\Validator;
 
 class PagesController extends Controller
 {
-    public $contact;
-
-    public function __construct()
-    {
-        $this->contact = Contact::first();
-    }
-
     public function index()
     {
-        return view('index', ['contact' => $this->contact]);
+        $contact = Contact::first();
+
+        return view('index', ['contact' => $contact]);
     }
+
+    /* FORGOT & CHANGE PASSWORD */
+
+    public function change(string $token)
+    {
+        return view('change', ['token' => $token]);
+    }
+
+    public function forgot()
+    {
+        return view('forgot');
+    }
+
+    /* ------------------------ */
 
     public function login()
     {
-        return view('login', ['contact' => $this->contact]);
+        return view('login');
     }
 
     public function sendMessage(Request $request)

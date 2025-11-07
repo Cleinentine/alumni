@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class InputCheckbox extends Component
 {
     public $id;
+
     public $name;
 
     /**

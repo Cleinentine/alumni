@@ -11,6 +11,19 @@ Route::get('login', [PagesController::class, 'login'])
     ->middleware('guest')
     ->name('login');
 
-Route::post('login', [UserController::class, 'login'])
+Route::post('login', [UserController::class, 'login'])->middleware('guest');
+
+/* FORGOT & CHANGE PASSWORD */
+
+Route::get('change/{token}', [PagesController::class, 'change'])
     ->middleware('guest')
-    ->name('login');
+    ->name('password.reset');
+
+Route::get('forgot', [PagesController::class, 'forgot'])
+    ->middleware('guest')
+    ->name('password.request');
+
+Route::post('change/{token}', [UserController::class, 'change'])->middleware('guest');
+Route::post('forgot', [UserController::class, 'reset'])->middleware('guest');
+
+/* ------------------------ */

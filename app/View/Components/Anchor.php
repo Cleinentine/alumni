@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class Anchor extends Component
 {
     public $href;
+
     public $text;
 
     /**

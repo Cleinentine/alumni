@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class GuestHeader extends Component
 {
     public $icon;
+
     public $text;
 
     /**

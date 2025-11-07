@@ -48,7 +48,7 @@
 
                     <div class="text-right">
                         <p>
-                            <x-anchor href="#" text="Forgot Password" />
+                            <x-anchor href="{{ route('password.request') }}" text="Forgot Password" />
                         </p>
                     </div>
                 </div>
@@ -58,6 +58,8 @@
                 <div class="mt-5 text-center">
                     @if (session('errorMessage'))
                         <x-error-message :message="session('errorMessage')" />
+                    @elseif (session('successMessage'))
+                        <x-success-message :message="session('successMessage')" />
                     @endif
                 </div>
             </form>

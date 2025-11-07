@@ -61,6 +61,16 @@
                         <a class="hover:underline" href="{{ $internal_links[$i] }}">{{ $internal_links_texts[$i] }}</a>
                     </li>
                 @endfor
+
+                @if (!Auth::check())
+                    <li class="mt-1">
+                        <a class="hover:underline" href="{{ route('login') }}">Login</a>
+                    </li>
+
+                    <li class="mt-1">
+                        <a class="hover:underline" href="{{ route('password.request') }}">Forgot Password</a>
+                    </li>
+                @endif
             </ul>
         </section>
 
