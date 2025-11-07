@@ -1,3 +1,3 @@
-<div>
-    <!-- The best way to take care of the future is to take care of the present moment. - Thich Nhat Hanh -->
+<div class="inline-block">
+    <input class="cursor-pointer scale-125" id="{{ $id }}" name="{{ $name }}" type="checkbox">
 </div>

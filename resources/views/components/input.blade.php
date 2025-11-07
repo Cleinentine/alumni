@@ -7,8 +7,8 @@
         placeholder="{{ $placeholder }}"
         type="{{ $type }}"
 
-        @if ($hasValue == 0)
-            value="{{ old('name') }}"
+        @if ($hasValue == 1)
+            value="{{ old($name) }}"
         @else
             value="{{ $value }}"
         @endif

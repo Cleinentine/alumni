@@ -1,3 +1,1 @@
-<div>
-    <!-- Live as if you were to die tomorrow. Learn as if you were to live forever. - Mahatma Gandhi -->
-</div>
+<a class="font-bold hover:underline text-red-900 text-sm" href="{{ $href }}">{{ $text }}</a>

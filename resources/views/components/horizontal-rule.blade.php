@@ -1,3 +1,1 @@
-<div>
-    <!-- Always remember that you are absolutely unique. Just like everyone else. - Margaret Mead -->
-</div>
+<hr class="border-red-900 mx-auto my-5 w-1/2">

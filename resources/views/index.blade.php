@@ -2,11 +2,11 @@
 
 @section('content')
     <section class="container-spacing" id="contact">
-        <section class="max-w-screen-2xl mx-auto">
+        <div class="max-w-screen-2xl mx-auto">
             <x-guest-heading text="Contact Us" />
 
-            <section class="gap-5 grid md:grid-cols-2">
-                <div class="text-center md:text-left">
+            <div class="gap-5 grid md:grid-cols-2">
+                <section class="text-center md:text-left">
                     <h2 class="font-bold font-montserrat text-3xl">Have a question?</h2>
 
                     <p class="leading-8 my-10 xl:w-[75%]">We're here to help! Fill out the form or reach us via email or phone. Our Customer Care Team is available to help you get the best experience out of CSUAn Ako.</p>
@@ -47,9 +47,9 @@
                             <h3>{{ $contact_details[$i] }}</h3>
                         @endif
                     @endfor
-                </div>
+                </section>
 
-                <div>
+                <section>
                     <form action="{{ route('sendMessage') }}/#contact" class="font-roboto" method="POST">
                         @csrf
                         @method("POST")
@@ -128,11 +128,11 @@
 
                         <x-button icon="fa-paper-plane" text="Send Message" />
                     </form>
-                </div>
-            </section>
-        </section>
+                </section>
+            </div>
+        </div>
     </section>
 
-    @include('includes.socials')
+    @include('includes.facebook')
     @include('includes.footer')
 @endsection

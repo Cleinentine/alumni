@@ -6,17 +6,17 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Anchor extends Component
+class GuestHeader extends Component
 {
-    public $href;
+    public $icon;
     public $text;
 
     /**
      * Create a new component instance.
      */
-    public function __construct($href, $text)
+    public function __construct($icon, $text)
     {
-        $this->href = $href;
+        $this->icon = $icon;
         $this->text = $text;
     }
 
@@ -25,6 +25,6 @@ class Anchor extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.anchor');
+        return view('components.guest-header');
     }
 }

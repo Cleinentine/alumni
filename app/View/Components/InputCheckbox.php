@@ -8,12 +8,16 @@ use Illuminate\View\Component;
 
 class InputCheckbox extends Component
 {
+    public $id;
+    public $name;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct($id, $name)
     {
-        //
+        $this->id = $id;
+        $this->name = $name;
     }
 
     /**
