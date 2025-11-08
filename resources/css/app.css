@@ -21,24 +21,24 @@
     padding-top: 6.25rem;
 }
 
-.guest-container {
+.container-width {
     width: 100%;
 }
 
 @media (width >= 48rem) {
-    .guest-container {
+    .container-width {
         width: 70%;
     }
 }
 
 @media (width >= 64rem) {
-    .guest-container {
+    .container-width {
         width: 50%;
     }
 }
 
 @media (width >= 96rem) {
-    .guest-container {
+    .container-width {
         width: 30%;
     }
 }

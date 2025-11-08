@@ -3,7 +3,7 @@
 @section('content')
     <section class="container-spacing" id="contact">
         <div class="max-w-screen-2xl mx-auto">
-            <x-guest-heading text="Contact Us" />
+            <x-heading text="Contact Us" />
 
             <div class="gap-5 grid md:grid-cols-2">
                 <section class="text-center md:text-left">
@@ -101,6 +101,7 @@
                                 icon="fa-folder-open"
                                 id="subject"
                                 name="subject"
+                                special=""
 
                                 :displayText="$subjects"
                                 :loop="count($subjects)"

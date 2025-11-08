@@ -42,7 +42,7 @@
                     $internal_links = [
                         route('home'),
                         '#',
-                        '#',
+                        route('tracer'),
                         '#',
                         '#'
                     ];

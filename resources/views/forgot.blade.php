@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="container-spacing">
-        <div class="guest-container max-w-screen-2xl mx-auto">
+        <div class="container-width max-w-screen-2xl mx-auto">
             <x-guest-header icon="fa-paper-plane" text="Forgot Password" />
 
             <form action="{{ route('password.request') }}" method="POST">

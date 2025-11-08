@@ -9,7 +9,6 @@ class Graduate extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'college_id',
         'program_id',
         'first_name',
         'middle_name',

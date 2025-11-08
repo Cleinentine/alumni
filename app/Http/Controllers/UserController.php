@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Industry;
+use App\Models\Program;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -77,5 +79,16 @@ class UserController extends Controller
                 ->withInput()
                 ->with('errorMessage', 'Incorrect email or password.');
         }
+    }
+
+    public function tracer()
+    {
+        $industries = Industry::all();
+        $programs = Program::get(['id', 'name']);
+
+        return view('tracer', [
+            'industries' => $industries,
+            'programs' => $programs
+        ]);
     }
 }

@@ -17,10 +17,6 @@ return new class extends Migration
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();
-            $table->foreignId('college_id')
-                ->nullable()
-                ->constrained()
-                ->nullOnDelete();
             $table->foreignId('program_id')
                 ->nullable()
                 ->constrained()

@@ -1,6 +1,6 @@
 <section class="bg-gray-100 container-spacing text-center" id="facebook">
     <div class="max-w-screen-2xl mx-auto">
-        <x-guest-heading text="Facebook Pages" />
+        <x-heading text="Facebook Pages" />
 
         <div class="gap-5 grid lg:grid-cols-2">
             <section>

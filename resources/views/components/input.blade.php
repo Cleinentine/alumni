@@ -1,6 +1,6 @@
 <div class="relative">
     <input
-        class="border-2 border-red-900 outline-none pl-[50px] placeholder:italic px-7 py-3 rounded-md text-sm w-full"
+        class="border-2 border-red-900 @if ($type == 'date') cursor-pointer @endif outline-none pl-[50px] placeholder:italic px-7 py-3 rounded-md text-sm w-full"
 
         id="{{ $id }}"
         name="{{ $name }}"

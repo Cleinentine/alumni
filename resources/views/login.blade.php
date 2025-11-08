@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="container-spacing">
-        <div class="guest-container max-w-screen-2xl mx-auto">
+        <div class="container-width max-w-screen-2xl mx-auto">
             <x-guest-header icon="fa-right-to-bracket" text="Sign-In" />
 
             <form action="{{ route('login') }}" method="POST">
@@ -69,7 +69,7 @@
             <p class="text-center text-sm">
                 Don 't have an account yet?
 
-                <x-anchor href="#" text="Create an Account" />
+                <x-anchor href="{{ route('tracer') }}" text="Create an Account" />
             </p>
         </div>
     </section>

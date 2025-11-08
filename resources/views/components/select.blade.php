@@ -4,11 +4,17 @@
         id="{{ $id }}"
         name={{ $name }}
     >
-        <option>-- Select --</option>
+        <option value="">-- Select --</option>
 
-        @for ($i = 0; $i < count($value); $i++)
-            <option value="{{ $value[$i] }}">{{ $displayText[$i] }}</option>
-        @endfor
+        @if (empty($special))
+            @for ($i = 0; $i < count($value); $i++)
+                <option value="{{ $value[$i] }}">{{ $displayText[$i] }}</option>
+            @endfor
+        @else
+            @for ($i = 0; $i < count($value); $i++)
+                <option value="{{ $value[$i]['id'] }}">{{ $displayText[$i]['name'] }}</option>
+            @endfor
+        @endif
     </select>
 
     <span class="absolute left-5 pointer-events-none select-none text-red-900 top-3">

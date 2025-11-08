@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class GuestHeading extends Component
+class Heading extends Component
 {
     public $text;
 
@@ -23,6 +23,6 @@ class GuestHeading extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.guest-heading');
+        return view('components.heading');
     }
 }

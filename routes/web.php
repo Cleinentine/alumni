@@ -13,6 +13,8 @@ Route::get('login', [PagesController::class, 'login'])
 
 Route::post('login', [UserController::class, 'login'])->middleware('guest');
 
+Route::get('tracer', [UserController::class, 'tracer'])->name('tracer');
+
 /* FORGOT & CHANGE PASSWORD */
 
 Route::get('change/{token}', [PagesController::class, 'change'])

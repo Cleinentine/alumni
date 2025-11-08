@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('contact_number')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('email_privacy')->nullable();
-            $table->boolean('contact_number_privacy')->nullable();
             $table->smallInteger('roles');
             $table->rememberToken();
             $table->timestamps();
