@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employment extends Model
 {
+    protected $primaryKey = 'graduate_id';
+
     protected $fillable = [
         'graduate_id',
         'industry_id',
@@ -20,4 +22,9 @@ class Employment extends Model
         'progression',
         'unemployment',
     ];
+
+    public function graduate()
+    {
+        return $this->belongsTo(Graduate::class);
+    }
 }

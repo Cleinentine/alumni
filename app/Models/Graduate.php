@@ -18,4 +18,19 @@ class Graduate extends Model
         'address',
         'year_graduated',
     ];
+
+    public function employment()
+    {
+        return $this->hasOne(Employment::class);
+    }
+
+    public function feedback()
+    {
+        return $this->hasOne(Feedback::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

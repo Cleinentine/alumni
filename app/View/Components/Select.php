@@ -18,6 +18,8 @@ class Select extends Component
 
     public $name;
 
+    public $selected;
+
     public $special;
 
     public $value;
@@ -25,13 +27,14 @@ class Select extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct($displayText, $icon, $id, $loop, $name, $special, $value)
+    public function __construct($displayText, $icon, $id, $loop, $name, $selected, $special, $value)
     {
         $this->displayText = $displayText;
         $this->icon = $icon;
         $this->id = $id;
         $this->loop = $loop;
         $this->name = $name;
+        $this->selected = $selected;
         $this->special = $special;
         $this->value = $value;
     }

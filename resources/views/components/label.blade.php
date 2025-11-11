@@ -1,3 +1,3 @@
 <div>
-    <label class="cursor-text text-sm" for="{{ $for }}">{{ $text }}:</label>
+    <label class="cursor-text text-lg" for="{{ $for }}">{{ $text }}:</label>
 </div>

@@ -1,31 +1,65 @@
 <?php
 
+use App\Http\Controllers\EmploymentController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\GraduateController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'index'])->name('home');
-Route::post('/', [PagesController::class, 'sendMessage'])->name('sendMessage');
-
-Route::get('login', [PagesController::class, 'login'])
-    ->middleware('guest')
-    ->name('login');
-
-Route::post('login', [UserController::class, 'login'])->middleware('guest');
-
-Route::get('tracer', [UserController::class, 'tracer'])->name('tracer');
+Route::post('/', [MailController::class, 'sendMessage'])->name('sendMessage');
 
 /* FORGOT & CHANGE PASSWORD */
 
-Route::get('change/{token}', [PagesController::class, 'change'])
+Route::get('change/{token}', [UserController::class, 'changePasswordForm'])
     ->middleware('guest')
     ->name('password.reset');
 
-Route::get('forgot', [PagesController::class, 'forgot'])
+Route::get('forgot', [UserController::class, 'forgotPasswordForm'])
     ->middleware('guest')
     ->name('password.request');
 
-Route::post('change/{token}', [UserController::class, 'change'])->middleware('guest');
-Route::post('forgot', [UserController::class, 'reset'])->middleware('guest');
+Route::post('change/{token}', [UserController::class, 'changePassword'])->middleware('guest');
+Route::post('forgot', [UserController::class, 'resetPassword'])->middleware('guest');
 
 /* ------------------------ */
+
+/* LOGIN, LOGOUT, REGISTER */
+
+Route::get('login', [UserController::class, 'loginForm'])
+    ->middleware('guest')
+    ->name('login');
+
+Route::get('register', [UserController::class, 'create'])
+    ->middleware('guest')
+    ->name('register');
+
+Route::post('login', [UserController::class, 'login'])->middleware('guest');
+Route::post('register', [UserController::class, 'store'])->middleware('guest');
+
+/* -------- */
+
+/* TRACER */
+
+Route::get('tracer/graduate', [GraduateController::class, 'index'])
+    ->middleware('auth')
+    ->name('tracerGraduate');
+
+Route::get('tracer/employment', [EmploymentController::class, 'index'])
+    ->middleware('auth')
+    ->name('tracerEmployment');
+
+Route::get('tracer/feedback', [FeedbackController::class, 'index'])
+    ->middleware('auth')
+    ->name('tracerFeedback');
+
+Route::get('tracer/account', [UserController::class, 'index'])
+    ->middleware('auth')
+    ->name('tracerAccount');
+
+Route::post('tracer/graduate', [GraduateController::class, 'storeUpdate'])->middleware('auth');
+Route::post('tracer/employment', [EmploymentController::class, 'storeUpdate'])->middleware('auth');
+Route::post('tracer/feedback', [FeedbackController::class, 'storeUpdate'])->middleware('auth');
+Route::post('tracer/account', [UserController::class, 'update'])->middleware('auth');

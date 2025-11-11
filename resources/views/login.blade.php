@@ -7,7 +7,6 @@
 
             <form action="{{ route('login') }}" method="POST">
                 @csrf
-                @method("POST")
 
                 @php
                     $hasValues = [1, 0];
@@ -43,7 +42,7 @@
                     <div>
                         <x-input-checkbox id="remember" name="remember" />
 
-                        <label class="cursor-pointer ml-1 text-sm" for="remember">Remember Me</label>
+                        <label class="cursor-pointer ml-1" for="remember">Remember Me</label>
                     </div>
 
                     <div class="text-right">
@@ -66,14 +65,15 @@
 
             <x-horizontal-rule />
 
-            <p class="text-center text-sm">
+            <p class="text-center">
                 Don 't have an account yet?
 
-                <x-anchor href="{{ route('tracer') }}" text="Create an Account" />
+                <x-anchor href="{{ route('register') }}" text="Create an Account" />
             </p>
         </div>
     </section>
 
     @include('includes.facebook')
     @include('includes.footer')
+    @vite(['resources/js/password-text.js'])
 @endsection

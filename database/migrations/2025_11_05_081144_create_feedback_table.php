@@ -18,9 +18,9 @@ return new class extends Migration
             $table->smallInteger('relevance');
             $table->smallInteger('skills');
             $table->smallInteger('competency');
-            $table->smallInteger('post_graduate');
-            $table->smallInteger('engagement');
-            $table->smallInteger('entrepreneurship');
+            $table->string('post_graduate');
+            $table->string('engagement');
+            $table->string('entrepreneurship');
             $table->text('suggestions')->nullable();
             $table->date('date_submitted');
         });

@@ -1,1 +1,1 @@
-<a class="font-bold hover:underline text-red-900 text-sm" href="{{ $href }}">{{ $text }}</a>
+<a class="font-bold hover:underline text-red-900" href="{{ $href }}">{{ $text }}</a>

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Feedback extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'graduate_id',
         'relevance',
@@ -17,4 +19,9 @@ class Feedback extends Model
         'suggestions',
         'date_submitted',
     ];
+
+    public function graduate()
+    {
+        return $this->belongsTo(Graduate::class);
+    }
 }

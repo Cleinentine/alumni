@@ -7,7 +7,6 @@
 
             <form action="{{ route('password.request') }}" method="POST">
                 @csrf
-                @method("POST")
 
                 <div class="mt-5">
                     <x-label for="email" text="Email" />
@@ -38,7 +37,7 @@
 
             <x-horizontal-rule />
 
-            <p class="text-center text-sm">
+            <p class="text-center">
                 Remembered your password?
 
                 <x-anchor href="{{ route('login') }}" text="Sign In" />

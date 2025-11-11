@@ -42,7 +42,6 @@
                     $internal_links = [
                         route('home'),
                         '#',
-                        route('tracer'),
                         '#',
                         '#'
                     ];
@@ -50,7 +49,6 @@
                     $internal_links_texts = [
                         'Home',
                         'Directory',
-                        'Tracer',
                         'Privacy Policy',
                         'Terms & Conditions'
                     ];
@@ -68,7 +66,15 @@
                     </li>
 
                     <li class="mt-1">
+                        <a class="hover:underline" href="{{ route('register') }}">Register</a>
+                    </li>
+
+                    <li class="mt-1">
                         <a class="hover:underline" href="{{ route('password.request') }}">Forgot Password</a>
+                    </li>
+                @else
+                    <li class="mt-1">
+                        <a class="hover:underline" href="{{ route('tracerGraduate') }}">Tracer</a>
                     </li>
                 @endif
             </ul>
@@ -82,12 +88,14 @@
                     $external_links = [
                         'https://www.csu.edu.ph',
                         'https://aparri.csu.edu.ph',
+                        'https://portal.csu.edu.ph',
                         'https://www.facebook.com/cagayanstate'
                     ];
 
                     $external_links_texts = [
                         'CSU Official Website',
                         'CSU Aparri Website',
+                        'CSU Enrollment Portal',
                         'Office of the President CSU'
                     ];
                 @endphp
