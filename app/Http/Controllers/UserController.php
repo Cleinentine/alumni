@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Graduate;
+use App\Models\Program;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -36,7 +38,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ], $request->remember)) {
-            return redirect()->route('tracer');
+            return redirect()->route('tracerGraduate');
         } else {
             return redirect()
                 ->route('login')
@@ -114,7 +116,9 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('register');
+        $programs = Program::get();
+
+        return view('register', ['programs' => $programs]);
     }
 
     public function update(Request $request)
@@ -157,6 +161,14 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'first_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
+            'middle_name' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
+            'last_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
+            'birth_date' => 'required|date|before:-18 years',
+            'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
+            'gender' => 'required|in:Male,Female',
+            'programs' => 'required|exists:programs,id',
+
             'email' => 'required|email|unique:users,email',
             'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
             'password' => 'required|confirmed',
@@ -176,9 +188,21 @@ class UserController extends Controller
                 'roles' => 4,
             ]);
 
+            Graduate::create([
+                'user_id' => $user->id,
+                'program_id' => $request->programs,
+                'first_name' => $request->first_name,
+                'middle_name' => $request->middle_name,
+                'last_name' => $request->last_name,
+                'birth_date' => $request->birth_date,
+                'gender' => $request->gender,
+                'year_graduated' => $request->year_graduated,
+                'address' => 'Aparri Cagayan',
+            ]);
+
             Auth::login($user);
 
-            return redirect()->route('tracer');
+            return redirect()->route('tracerGraduate');
         }
     }
 }

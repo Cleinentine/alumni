@@ -15,7 +15,7 @@ class EmploymentController extends Controller
      */
     public function index()
     {
-        $employment = Employment::where('graduate_id', Auth::user()->graduate->id)->first();
+        $employment = Employment::where('graduate_id', Auth::user()->graduate->id);
         $industries = Industry::get();
 
         return view('tracer.employment', [

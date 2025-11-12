@@ -25,7 +25,7 @@ class GraduateController extends Controller
         ]);
     }
 
-    public function storeUpdate(Request $request)
+    public function update(Request $request)
     {
         if (Auth::user()->roles == 4) {
             $validator = Validator::make($request->all(), [
@@ -44,18 +44,18 @@ class GraduateController extends Controller
                     ->withErrors($validator)
                     ->withInput();
             } else {
-                Graduate::updateOrCreate([
-                    'user_id' => Auth::user()->id,
-                ], [
-                    'program_id' => $request->programs,
-                    'first_name' => $request->first_name,
-                    'middle_name' => $request->middle_name,
-                    'last_name' => $request->last_name,
-                    'birth_date' => $request->birth_date,
-                    'gender' => $request->gender,
-                    'year_graduated' => $request->year_graduated,
-                    'address' => '',
-                ]);
+                Graduate::where('graduate_id', Auth::user()->graduate->id)
+                    ->where('user_id', Auth::user()->id)
+                    ->update([
+                        'program_id' => $request->programs,
+                        'first_name' => $request->first_name,
+                        'middle_name' => $request->middle_name,
+                        'last_name' => $request->last_name,
+                        'birth_date' => $request->birth_date,
+                        'gender' => $request->gender,
+                        'year_graduated' => $request->year_graduated,
+                        'address' => '',
+                    ]);
 
                 return redirect()
                     ->route('tracerGraduate')

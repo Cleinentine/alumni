@@ -59,7 +59,7 @@ Route::get('tracer/account', [UserController::class, 'index'])
     ->middleware('auth')
     ->name('tracerAccount');
 
-Route::post('tracer/graduate', [GraduateController::class, 'storeUpdate'])->middleware('auth');
+Route::post('tracer/graduate', [GraduateController::class, 'update'])->middleware('auth');
 Route::post('tracer/employment', [EmploymentController::class, 'storeUpdate'])->middleware('auth');
 Route::post('tracer/feedback', [FeedbackController::class, 'storeUpdate'])->middleware('auth');
 Route::post('tracer/account', [UserController::class, 'update'])->middleware('auth');
