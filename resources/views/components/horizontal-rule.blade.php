@@ -1,1 +1,1 @@
-<hr class="border-red-900 mx-auto my-5 w-1/2">
+<hr class="border-red-900 mx-auto my-10 w-1/2">

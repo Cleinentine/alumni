@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('company')->nullable();
             $table->string('city')->nullable();
-            $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->smallInteger('time_to_first_job')->nullable();
             $table->string('search_methods')->nullable();

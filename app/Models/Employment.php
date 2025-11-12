@@ -15,7 +15,6 @@ class Employment extends Model
         'title',
         'company',
         'city',
-        'state',
         'country',
         'time_to_first_job',
         'search_methods',

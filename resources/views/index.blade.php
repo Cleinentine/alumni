@@ -101,6 +101,7 @@
                                 icon="fa-folder-open"
                                 id="subject"
                                 name="subject"
+                                selected=""
                                 special=""
 
                                 :displayText="$subjects"
