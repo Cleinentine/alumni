@@ -9,6 +9,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'index'])->name('home');
+Route::put('/', [UserController::class, 'logout'])->name('home');
 Route::post('/', [MailController::class, 'sendMessage'])->name('sendMessage');
 
 /* FORGOT & CHANGE PASSWORD */

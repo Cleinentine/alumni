@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('includes.header')
+    
     <section class="container-spacing">
         <div class="container-width max-w-screen-2xl mx-auto">
             <x-guest-header icon="fa-right-to-bracket" text="Sign-In" />

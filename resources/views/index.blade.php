@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+    @include('includes.header')
+    
     <section class="container-spacing" id="contact">
         <div class="max-w-screen-2xl mx-auto">
             <x-heading text="Contact Us" />
