@@ -10,12 +10,14 @@ class Graduate extends Model
         'id',
         'user_id',
         'program_id',
+        'country_id',
+        'city_id',
+        'state_id',
         'first_name',
         'middle_name',
         'last_name',
         'birth_date',
         'gender',
-        'address',
         'year_graduated',
     ];
 

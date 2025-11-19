@@ -6,6 +6,7 @@ use App\Http\Controllers\GraduateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
+use App\Models\Graduate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'index'])->name('home');
@@ -61,6 +62,9 @@ Route::get('tracer/account', [UserController::class, 'index'])
     ->name('tracerAccount');
 
 Route::post('tracer/graduate', [GraduateController::class, 'update'])->middleware('auth');
-Route::post('tracer/employment', [EmploymentController::class, 'storeUpdate'])->middleware('auth');
-Route::post('tracer/feedback', [FeedbackController::class, 'storeUpdate'])->middleware('auth');
+Route::post('tracer/employment', [EmploymentController::class, 'update'])->middleware('auth');
+Route::post('tracer/feedback', [FeedbackController::class, 'store'])->middleware('auth');
 Route::post('tracer/account', [UserController::class, 'update'])->middleware('auth');
+
+Route::post('tracer/countries', [GraduateController::class, 'getStates']);
+Route::post('tracer/states', [GraduateController::class, 'getCities']);

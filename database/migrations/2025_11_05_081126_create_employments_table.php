@@ -19,6 +19,18 @@ return new class extends Migration
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();
+            $table->foreignId('country_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->foreignId('state_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->foreignId('city_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
             $table->string('status')->nullable();
             $table->string('title')->nullable();
             $table->string('company')->nullable();
@@ -26,7 +38,6 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->smallInteger('time_to_first_job')->nullable();
             $table->string('search_methods')->nullable();
-            $table->string('progression')->nullable();
             $table->text('unemployment')->nullable();
             $table->timestamps();
         });

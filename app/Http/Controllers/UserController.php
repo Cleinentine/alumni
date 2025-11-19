@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employment;
 use App\Models\Graduate;
 use App\Models\Program;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
@@ -116,9 +118,21 @@ class UserController extends Controller
 
     public function create()
     {
+        $countries = DB::table('countries')
+            ->orderBy('name', 'ASC')
+            ->get(['id', 'name']);
+
         $programs = Program::get();
 
-        return view('register', ['programs' => $programs]);
+        $cities = '';
+        $states = '';
+
+        return view('register', [
+            'countries' => json_decode($countries, true),
+            'programs' => $programs,
+            'cities' => $cities,
+            'states' => $states
+        ]);
     }
 
     public function update(Request $request)
@@ -165,6 +179,9 @@ class UserController extends Controller
             'middle_name' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
             'last_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
             'birth_date' => 'required|date|before:-18 years',
+            'country' => 'required|exists:countries,id',
+            'state' => 'nullable|exists:states,id',
+            'city' => 'nullable|exists:cities,id',
             'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
             'gender' => 'required|in:Male,Female',
             'programs' => 'required|exists:programs,id',
@@ -188,21 +205,38 @@ class UserController extends Controller
                 'roles' => 4,
             ]);
 
-            Graduate::create([
+            $graduate = Graduate::create([
                 'user_id' => $user->id,
                 'program_id' => $request->programs,
+                'country_id' => $request->country,
+                'state_id' => $request->state,
+                'city_id' => $request->city,
                 'first_name' => $request->first_name,
                 'middle_name' => $request->middle_name,
                 'last_name' => $request->last_name,
                 'birth_date' => $request->birth_date,
                 'gender' => $request->gender,
                 'year_graduated' => $request->year_graduated,
-                'address' => 'Aparri Cagayan',
+            ]);
+
+            Employment::create([
+                'graduate_id' => $graduate->id,
+                'industry_id' => null,
+                'country_id' => null,
+                'state_id' => null,
+                'city_id' => null,
+                'status' => null,
+                'title' => null,
+                'company' => null,
+                'time_to_first_job' => null,
+                'search_methods' => null,
+                'progression' => null,
+                'unemployment' => null
             ]);
 
             Auth::login($user);
 
-            return redirect()->route('tracerGraduate');
+            return redirect()->route('tracerEmployment');
         }
     }
 }

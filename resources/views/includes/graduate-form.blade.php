@@ -27,11 +27,6 @@
 @endfor
 
 @php
-    $displayTexts = [
-        ['Male', 'Female'],
-        $programs
-    ];
-
     $icons = ['fa-mars-and-venus', 'fa-building-columns'];
     $labels = ['Gender (Required)', 'Program (Required)'];
     $loops = [2, count($programs)];
@@ -49,7 +44,7 @@
         <x-label for="{{ $names[$i] }}" text="{{ $labels[$i] }}" />
 
         <x-select
-            :displayText="$displayTexts[$i]"
+            :displayText="$values[$i]"
             :icon="$icons[$i]"
             :id="$names[$i]"
             :loop="$loops[$i]"
@@ -64,3 +59,17 @@
         @enderror
     </div>
 @endfor
+
+@php
+    if (Auth::check()) {
+        $selectedCity = $graduate->city_id;
+        $selectedCountry = $graduate->country_id;
+        $selectedState = $graduate->state_id;
+    } else {
+        $selectedCity = '';
+        $selectedCountry = '';
+        $selectedState = '';
+    }
+@endphp
+
+@include('includes.address-form')

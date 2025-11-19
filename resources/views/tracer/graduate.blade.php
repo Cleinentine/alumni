@@ -35,7 +35,11 @@
             </form>
         </section>
 
-        @include('includes.facebook')
         @include('includes.footer')
     </section>
+
+    <script>
+        document.getElementById("tracer-graduate").classList.toggle("bg-yellow-400");
+        document.getElementById("tracer-graduate").style.color = "#000";
+    </script>
 @endsection

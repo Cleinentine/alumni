@@ -62,4 +62,9 @@
         @include('includes.facebook')
         @include('includes.footer')
     </section>
+
+    <script>
+        document.getElementById("tracer-feedback").classList.toggle("bg-yellow-400");
+        document.getElementById("tracer-feedback").style.color = "#000";
+    </script>
 @endsection

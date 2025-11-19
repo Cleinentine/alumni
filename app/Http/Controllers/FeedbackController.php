@@ -23,7 +23,7 @@ class FeedbackController extends Controller
         }
     }
 
-    public function storeUpdate(Request $request)
+    public function store(Request $request)
     {
         if (Auth::user()->role == 4) {
             $validator = Validator::make($request->all(), [

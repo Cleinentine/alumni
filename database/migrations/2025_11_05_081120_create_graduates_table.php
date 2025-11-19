@@ -21,12 +21,23 @@ return new class extends Migration
                 ->nullable()
                 ->constrained()
                 ->nullOnDelete();
+            $table->foreignId('country_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->foreignId('state_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->foreignId('city_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->date('birth_date');
             $table->string('gender');
-            $table->string('address');
             $table->year('year_graduated');
             $table->timestamps();
         });

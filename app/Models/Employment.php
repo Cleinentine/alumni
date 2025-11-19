@@ -11,6 +11,9 @@ class Employment extends Model
     protected $fillable = [
         'graduate_id',
         'industry_id',
+        'country_id',
+        'city_id',
+        'state_id',
         'status',
         'title',
         'company',
@@ -18,7 +21,6 @@ class Employment extends Model
         'country',
         'time_to_first_job',
         'search_methods',
-        'progression',
         'unemployment',
     ];
 

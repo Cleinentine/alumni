@@ -57,26 +57,25 @@
 
                 @php
                     $displayTexts = [
-                        [''],
                         ['Full-time', 'Part-time', 'Temporary/Seasonal', 'Self-Employed', 'Unemployed'],
                         $industries,
                         ['JobStreet', 'LinkedIn', 'Indeed', 'Kalibrr', 'PhilJobNet', 'Others']
 
                     ];
 
-                    $ids = ['progression-id', 'status-id', 'industries-id', 'search-methods-id'];
-                    $icons = ['fa-bars-progress', 'fa-person-walking-luggage', 'fa-industry', 'fa-magnifying-glass'];
-                    $labels = ['Career Progression', 'Employment Status (Required)', 'Company Industry', 'Job Search Methods'];
-                    $loops = [1, count($displayTexts[1]), count($industries), count($displayTexts[3])];
-                    $names = ['progression', 'status', 'industry', 'search_methods'];
+                    $ids = ['status-id', 'industries-id', 'search-methods-id'];
+                    $icons = ['fa-person-walking-luggage', 'fa-industry', 'fa-magnifying-glass'];
+                    $labels = ['Employment Status (Required)', 'Company Industry', 'Job Search Methods'];
+                    $loops = [count($displayTexts[0]), count($industries), count($displayTexts[2])];
+                    $names = ['status', 'industry', 'search_methods'];
 
                     if ($employment) {
-                        $selected = ['', $employment->status, $employment->industry_id, $employment->search_methods];
+                        $selected = [$employment->status, $employment->industry_id, $employment->search_methods];
                     } else {
-                        $selected = ['', '', '', ''];
+                        $selected = ['', '', ''];
                     }
 
-                    $specials = ['', '', 'industries', ''];
+                    $specials = ['', 'industries', ''];
                 @endphp
 
                 @for ($i = 0; $i < count($names); $i++)
@@ -100,6 +99,14 @@
                     </div>
                 @endfor
 
+                @php
+                    $selectedCity = $employment->city_id;
+                    $selectedCountry = $employment->country_id;
+                    $selectedState = $employment->state_id;
+                @endphp
+
+                @include('includes.address-form')
+
                 <div class="mt-10" id="unemployed">
                     <x-label for="unemployment" text="Unemployment Reasons" />
                     
@@ -119,14 +126,17 @@
     </section>
 
     <script>
+        document.getElementById("tracer-employment").classList.toggle("bg-yellow-400");
+        document.getElementById("tracer-employment").style.color = "#000";
+
         const unemployed = document.getElementById("unemployed"),
             status = document.getElementById("status"),
             unemployment = document.getElementById("unemployment"),
 
             employment_form_01 = document.getElementById("employment-form-01"),
-            progression = document.getElementById("progression-id"),
             industries = document.getElementById("industries-id"),
-            search_methods = document.getElementById("search-methods-id");
+            search_methods = document.getElementById("search-methods-id"),
+            address_form = document.getElementById("address-form");
 
         if (status.value !== "Unemployed") {
             unemployed.style.display = "none";
@@ -139,17 +149,17 @@
                 unemployed.style.display = "block";
 
                 employment_form_01.style.display = "none";
-                progression.style.display = "none";
                 industries.style.display = "none";
                 search_methods.style.display = "none";
+                address_form.style.display = "none";
             } else {
                 unemployed.style.display = "none";
                 unemployment.value = "";
 
                 employment_form_01.style.display = "block";
-                progression.style.display = "block";
                 industries.style.display = "block";
                 search_methods.style.display = "block";
+                address_form.style.display = "block";
             }
         });
     </script>
