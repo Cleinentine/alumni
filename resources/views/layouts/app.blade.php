@@ -38,9 +38,6 @@
         <meta name="twitter:description" content="{{ $webDesc ?? 'Default description' }}">
         <meta name="twitter:image" content="{{ $webImg ?? asset('default.jpg') }}">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css"/>
-        <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
-
         @vite([
             'resources/css/app.css',
             'resources/js/app.js'
@@ -51,26 +48,11 @@
 
     <body class="font-nunito">
         @yield('content')
+        @include('cookie-consent::index')
 
         <div id="fb-root"></div>
         
         <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v24.0&appId=1140187344090566"></script>
         <script src="https://kit.fontawesome.com/9fa37eff98.js" crossorigin="anonymous"></script>
-
-        <script>
-            window.cookieconsent.initialise({
-                palette: {
-                    popup: { background: "#000" },
-                    button: { background: "#f1d600" }
-                },
-                theme: "classic",
-                content: {
-                    message: "We use cookies to improve your experience.",
-                    dismiss: "Got it!",
-                    link: "Learn more",
-                    href: "{{ route('privacy') }}"
-                }
-                });
-        </script>
     </body>
 </html>
