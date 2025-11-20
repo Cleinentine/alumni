@@ -9,6 +9,8 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
@@ -31,6 +33,26 @@ Route::get('terms', function () {
 Route::get('directory', [DirectoryController::class, 'index'])->name('directory');
 
 /* --------- */
+
+/* EMAIL VERIFICATION */
+
+Route::get('verify', function () {
+    return view('verify');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect()->route('tracerEmployment');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Email Verification Link has been sent successfully.');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+/* ------------------ */
 
 /* FORGOT & CHANGE PASSWORD */
 
@@ -72,25 +94,25 @@ Route::post('survey', [SurveyController::class, 'store'])->middleware(ProtectAga
 /* TRACER */
 
 Route::get('tracer/graduate', [GraduateController::class, 'index'])
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('tracerGraduate');
 
 Route::get('tracer/employment', [EmploymentController::class, 'index'])
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('tracerEmployment');
 
 Route::get('tracer/feedback', [FeedbackController::class, 'index'])
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('tracerFeedback');
 
 Route::get('tracer/account', [UserController::class, 'index'])
-    ->middleware('auth')
+    ->middleware(['auth', 'verified'])
     ->name('tracerAccount');
 
-Route::post('tracer/graduate', [GraduateController::class, 'update'])->middleware('auth');
-Route::post('tracer/employment', [EmploymentController::class, 'update'])->middleware('auth');
-Route::post('tracer/feedback', [FeedbackController::class, 'store'])->middleware('auth');
-Route::post('tracer/account', [UserController::class, 'update'])->middleware('auth');
+Route::post('tracer/graduate', [GraduateController::class, 'update'])->middleware(['auth', 'verified']);
+Route::post('tracer/employment', [EmploymentController::class, 'update'])->middleware(['auth', 'verified']);
+Route::post('tracer/feedback', [FeedbackController::class, 'store'])->middleware(['auth', 'verified']);
+Route::post('tracer/account', [UserController::class, 'update'])->middleware(['auth', 'verified']);
 
 Route::post('tracer/countries', [GraduateController::class, 'getStates']);
 Route::post('tracer/states', [GraduateController::class, 'getCities']);

@@ -107,7 +107,7 @@ class GraduateController extends Controller
                 'country' => 'required|exists:countries,id',
                 'state' => 'nullable|exists:states,id',
                 'city' => 'nullable|exists:cities,id',
-                'year_graduated' => 'required|integer|digits:4|min:1960|max:'.date('Y'),
+                'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
                 'gender' => 'required|in:Male,Female',
                 'programs' => 'required|exists:programs,id',
             ]);

@@ -7,6 +7,7 @@ use App\Models\Graduate;
 use App\Models\Program;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -235,9 +236,11 @@ class UserController extends Controller
                 'unemployment' => null,
             ]);
 
+            event(new Registered($user));
+
             Auth::login($user);
 
-            return redirect()->route('tracerEmployment');
+            return redirect()->route('verification.notice');
         }
     }
 }

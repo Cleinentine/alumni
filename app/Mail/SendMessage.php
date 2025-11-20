@@ -44,7 +44,7 @@ class SendMessage extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.send-message',
+            view: 'mails.send-message',
         );
     }
 
