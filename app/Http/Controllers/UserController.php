@@ -138,7 +138,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email,'.Auth::user()->id,
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
             'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
             'password' => 'nullable|confirmed',
             'password_confirmation' => 'nullable',
@@ -182,7 +182,7 @@ class UserController extends Controller
             'country' => 'required|exists:countries,id',
             'state' => 'nullable|exists:states,id',
             'city' => 'nullable|exists:cities,id',
-            'year_graduated' => 'required|integer|digits:4|min:1960|max:'.date('Y'),
+            'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
             'gender' => 'required|in:Male,Female',
             'programs' => 'required|exists:programs,id',
 
@@ -190,6 +190,7 @@ class UserController extends Controller
             'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
             'password' => 'required|confirmed',
             'password_confirmation' => 'required',
+            'terms' => 'required|accepted',
         ]);
 
         if ($validator->fails()) {

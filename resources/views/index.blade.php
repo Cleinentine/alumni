@@ -28,7 +28,7 @@
         </div>
     </article>
     
-    <article class="container-spacing max-w-screen-2xl mx-auto">
+    <article class="container-spacing max-w-screen-2xl mx-auto" id="do">
         <x-heading text="What We Do" />
 
         <section class="gap-5 grid md:grid-cols-3">
@@ -58,7 +58,7 @@
         </section>
     </article>
 
-    <article class="bg-gray-100 container-spacing">
+    <article class="bg-gray-100 container-spacing" id="organization">
         <section class="max-w-screen-2xl mx-auto">
             <x-heading text="Alumni Organization" />
 
@@ -89,41 +89,43 @@
                     <p class="leading-8 my-10 xl:w-[75%]">We're here to help! Fill out the form or reach us via email or phone. Our Customer Care Team is available to help you get the best experience out of CSUAn Ako.</p>
                     <p class="leading-8 mb-10 xl:w-[75%]">Everyone gets a personalized response, so please allow 24 hours during business hours for a reply. Our business hours are M-F from 9am to 5pm PST.</p>
 
-                    @php
-                        $contact_headings = ['Address', 'Contact Email', 'Contact Numbers'];
-                        $contact_icons = ['fa-map-location-dot', 'fa-at', 'fa-phone'];
-                        $contact_details = ['Maura, Aparri, Cagayan, 3515', $contact->contact_email, $contact->contact_number];
-                    @endphp
+                    <contact>
+                        @php
+                            $contact_headings = ['Address', 'Contact Email', 'Contact Numbers'];
+                            $contact_icons = ['fa-map-location-dot', 'fa-at', 'fa-phone'];
+                            $contact_details = ['Maura, Aparri, Cagayan, 3515', $contact->contact_email, $contact->contact_number];
+                        @endphp
 
-                    @for ($i = 0; $i < count($contact_details); $i++)
-                        <h2 class="font-bold font-montserrat @if ($i == 1) mt-5 @endif uppercase">
-                            <span>
-                                <i class="fa-solid {{ $contact_icons[$i] }}"></i>
-                            </span>
+                        @for ($i = 0; $i < count($contact_details); $i++)
+                            <h2 class="font-bold font-montserrat @if ($i == 1) mt-5 @endif uppercase">
+                                <span>
+                                    <i class="fa-solid {{ $contact_icons[$i] }}"></i>
+                                </span>
 
-                            {{ $contact_headings[$i] }}
-                        </h2>
+                                {{ $contact_headings[$i] }}
+                            </h2>
 
-                        @if ($i == 1)
-                            <h3 class="mb-5">
-                                <a class="font-bold hover:underline text-red-900" href="mailto:{{ $contact_details[$i] }}">{{ $contact_details[$i] }}</a>
-                            </h3>
-                        @elseif ($i >= 2)
-                            <h3>
-                                <a class="font-bold hover:underline text-red-900" href="tel:{{ $contact_details[$i] }}">
-                                    {{ $contact_details[$i] }}
-                                </a>
+                            @if ($i == 1)
+                                <h3 class="mb-5">
+                                    <a class="font-bold hover:underline text-red-900" href="mailto:{{ $contact_details[$i] }}">{{ $contact_details[$i] }}</a>
+                                </h3>
+                            @elseif ($i >= 2)
+                                <h3>
+                                    <a class="font-bold hover:underline text-red-900" href="tel:{{ $contact_details[$i] }}">
+                                        {{ $contact_details[$i] }}
+                                    </a>
 
-                                ||
+                                    ||
 
-                                <a class="font-bold hover:underline text-red-900" href="tel:{{ $contact->alternate_contact_number }}">
-                                    {{ $contact->alternate_contact_number }}
-                                </a>
-                            </h3>
-                        @else
-                            <h3>{{ $contact_details[$i] }}</h3>
-                        @endif
-                    @endfor
+                                    <a class="font-bold hover:underline text-red-900" href="tel:{{ $contact->alternate_contact_number }}">
+                                        {{ $contact->alternate_contact_number }}
+                                    </a>
+                                </h3>
+                            @else
+                                <h3>{{ $contact_details[$i] }}</h3>
+                            @endif
+                        @endfor
+                    </contact>
                 </section>
 
                 <section>

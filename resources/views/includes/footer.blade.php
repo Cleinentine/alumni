@@ -17,12 +17,12 @@
             <ul class="mt-3">
                 @php
                     $homepage_links = [
-                        route('home') . '#offer',
-                        route('home') . '#alumni',
+                        route('home') . '#do',
+                        route('home') . '#organization',
                         route('home') . '#contact'
                     ];
 
-                    $homepage_links_texts = ['What We Offer', 'Alumni Organization', 'Contact Us'];
+                    $homepage_links_texts = ['What We Do', 'Alumni Organization', 'Contact Us'];
                 @endphp
 
                 @for ($i = 0; $i < count($homepage_links); $i++)
@@ -41,15 +41,15 @@
                     $internal_links = [
                         route('home'),
                         route('directory'),
-                        '#',
-                        '#'
+                        route('privacy'),
+                        route('terms')
                     ];
 
                     $internal_links_texts = [
                         'Home',
                         'Directory',
-                        'Privacy Policy',
-                        'Terms & Conditions'
+                        'Privacy Notice',
+                        'Terms of Use'
                     ];
                 @endphp
 

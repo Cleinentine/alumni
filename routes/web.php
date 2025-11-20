@@ -13,6 +13,14 @@ Route::get('/', [PagesController::class, 'index'])->name('home');
 Route::put('/', [UserController::class, 'logout'])->name('home');
 Route::post('/', [MailController::class, 'sendMessage'])->name('sendMessage');
 
+Route::get('privacy', function () {
+    return view('privacy');
+})->name('privacy');
+
+Route::get('terms', function () {
+    return view('terms');
+})->name('terms');
+
 /* DIRECTORY */
 
 Route::get('directory', [DirectoryController::class, 'index'])->name('directory');
