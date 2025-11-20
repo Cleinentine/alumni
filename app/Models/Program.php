@@ -15,6 +15,6 @@ class Program extends Model
 
     public function graduate()
     {
-        return $this->hasOne(Graduate::class);
+        return $this->belongsTo(Graduate::class);
     }
 }

@@ -31,7 +31,7 @@
                 @endif
 
                 <li class="inline">
-                    <a class="border-t-3 border-transparent duration-500 font-bold hover:border-yellow-400 inline-block p-3" href="#">
+                    <a class="border-t-3 border-transparent duration-500 font-bold hover:border-yellow-400 inline-block p-3" href="{{ route('directory') }}">
                         DIRECTORY
                         <span><i class="fa-solid fa-search"></i></span>
                     </a>
@@ -63,7 +63,7 @@
         </li>
 
         <li>
-            <a class="flex duration-500 hover:bg-yellow-400 hover:text-black p-5 text-white" href="{{ route('home') }}">
+            <a class="flex duration-500 hover:bg-yellow-400 hover:text-black p-5 text-white" href="{{ route('directory') }}">
                 <span class="w-[10%]"><i class="fa-solid fa-search"></i></span>
                 <span class="font-bold w-[90%]">Directory</span>
             </a>

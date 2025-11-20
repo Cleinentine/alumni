@@ -28,4 +28,9 @@ class Employment extends Model
     {
         return $this->belongsTo(Graduate::class);
     }
+
+    public function industry()
+    {
+        return $this->hasOne(Industry::class, 'id', 'industry_id');
+    }
 }

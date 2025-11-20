@@ -16,7 +16,7 @@ class FeedbackController extends Controller
     {
         $feedback = Feedback::where('graduate_id', Auth::user()->graduate->id)->first();
 
-        if (!$feedback) {
+        if (! $feedback) {
             return view('tracer.feedback');
         } else {
             return redirect()->route('tracerGraduate');
@@ -32,7 +32,7 @@ class FeedbackController extends Controller
                 'competency' => 'required|numeric|digits:1|min:1|max:5',
                 'post_graduate' => 'required|in:Yes,No',
                 'engagement' => 'required|in:Yes,No',
-                'entrepreneurship' => 'required|in:Yes,No'
+                'entrepreneurship' => 'required|in:Yes,No',
             ]);
 
             if ($validator->fails()) {
@@ -49,7 +49,7 @@ class FeedbackController extends Controller
                     'post_graduate' => $request->post_graduate,
                     'engagement' => $request->engagement,
                     'entrepreneurship' => $request->entrepreneurship,
-                    'date_submitted' => NOW()
+                    'date_submitted' => NOW(),
                 ]);
 
                 return redirect()

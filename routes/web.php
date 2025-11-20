@@ -1,17 +1,23 @@
 <?php
 
+use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\EmploymentController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GraduateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\UserController;
-use App\Models\Graduate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PagesController::class, 'index'])->name('home');
 Route::put('/', [UserController::class, 'logout'])->name('home');
 Route::post('/', [MailController::class, 'sendMessage'])->name('sendMessage');
+
+/* DIRECTORY */
+
+Route::get('directory', [DirectoryController::class, 'index'])->name('directory');
+
+/* --------- */
 
 /* FORGOT & CHANGE PASSWORD */
 

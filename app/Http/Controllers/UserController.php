@@ -131,14 +131,14 @@ class UserController extends Controller
             'countries' => json_decode($countries, true),
             'programs' => $programs,
             'cities' => $cities,
-            'states' => $states
+            'states' => $states,
         ]);
     }
 
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
+            'email' => 'required|email|unique:users,email,'.Auth::user()->id,
             'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
             'password' => 'nullable|confirmed',
             'password_confirmation' => 'nullable',
@@ -157,11 +157,11 @@ class UserController extends Controller
                 User::where('id', Auth::user()->id)
                     ->update([
                         'email' => $request->email,
-                        'phone' => $request->phone
+                        'phone' => $request->phone,
                     ]);
             }
 
-            if (!empty($request->password)) {
+            if (! empty($request->password)) {
                 User::where('id', Auth::user()->id)
                     ->update(['password' => Hash::make($request->password)]);
             }
@@ -182,7 +182,7 @@ class UserController extends Controller
             'country' => 'required|exists:countries,id',
             'state' => 'nullable|exists:states,id',
             'city' => 'nullable|exists:cities,id',
-            'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
+            'year_graduated' => 'required|integer|digits:4|min:1960|max:'.date('Y'),
             'gender' => 'required|in:Male,Female',
             'programs' => 'required|exists:programs,id',
 
@@ -231,7 +231,7 @@ class UserController extends Controller
                 'time_to_first_job' => null,
                 'search_methods' => null,
                 'progression' => null,
-                'unemployment' => null
+                'unemployment' => null,
             ]);
 
             Auth::login($user);

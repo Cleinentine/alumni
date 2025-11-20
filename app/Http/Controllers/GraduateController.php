@@ -68,7 +68,7 @@ class GraduateController extends Controller
             'programs' => $programs,
             'selectedCity' => $selectedCity,
             'selectedState' => $selectedState,
-            'states' => $states
+            'states' => $states,
         ]);
     }
 
@@ -107,7 +107,7 @@ class GraduateController extends Controller
                 'country' => 'required|exists:countries,id',
                 'state' => 'nullable|exists:states,id',
                 'city' => 'nullable|exists:cities,id',
-                'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
+                'year_graduated' => 'required|integer|digits:4|min:1960|max:'.date('Y'),
                 'gender' => 'required|in:Male,Female',
                 'programs' => 'required|exists:programs,id',
             ]);
@@ -130,7 +130,7 @@ class GraduateController extends Controller
                         'last_name' => $request->last_name,
                         'birth_date' => $request->birth_date,
                         'gender' => $request->gender,
-                        'year_graduated' => $request->year_graduated
+                        'year_graduated' => $request->year_graduated,
                     ]);
 
                 return redirect()

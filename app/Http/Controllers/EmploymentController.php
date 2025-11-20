@@ -61,7 +61,7 @@ class EmploymentController extends Controller
             'countries' => $countries,
             'employment' => $employment,
             'industries' => $industries,
-            'states' => $states
+            'states' => $states,
         ]);
     }
 
@@ -78,7 +78,7 @@ class EmploymentController extends Controller
                 'unemployment' => 'nullable|max:100',
                 'country' => 'nullable|exists:countries,id',
                 'state' => 'nullable|exists:states,id',
-                'city' => 'nullable|exists:cities,id'
+                'city' => 'nullable|exists:cities,id',
             ]);
 
             if ($validator->fails()) {
@@ -111,7 +111,7 @@ class EmploymentController extends Controller
                         'company' => $request->company,
                         'time_to_first_job' => $request->time_to_first_job,
                         'search_methods' => $request->search_methods,
-                        'unemployment' => $request->unemployment
+                        'unemployment' => $request->unemployment,
                     ]);
 
                 return redirect()

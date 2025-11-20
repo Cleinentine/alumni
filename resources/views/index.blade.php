@@ -2,6 +2,81 @@
 
 @section('content')
     @include('includes.header')
+
+    <article class="bg-cover bg-center bg-no-repeat h-[1000px] md:h-screen relative text-white" style="background-image: url('{{ asset('images/banner.jpeg') }}');">
+        <div class="bg-black/70 container-spacing h-full">
+                <div class="-translate-x-1/2 -translate-y-1/2 absolute font-montserrat left-1/2 md:text-left text-center top-1/2 w-[85%]">
+                    <div class="max-w-screen-2xl mx-auto">
+                        <h2 class="font-bold text-lg">WELCOME TO</h2>
+
+                        <h1 class="font-black text-7xl">
+                            <span class="text-red-900">CSUAN</span>
+                            <span class="text-yellow-400">AKO</span>
+                        </h1>
+
+                        <h3 class="font-thin text-lg">AN ONLINE ALUMNI REPOSITORY</h3>
+
+                        <p class="leading-8 lg:w-[70%] md:w-[90%] mt-10 tracking-wide w-full xl:w-1/2">
+                            Welcome to the Cagayan State University Alumni Portal — a unified platform designed to keep our vibrant CSU community connected and empowered.
+                            Explore the Alumni Directory to reconnect with fellow graduates, access the Tracer System to share your professional journey, and benefit from
+                            data-driven insights through our Decision-Support System. Together, we celebrate achievements, strengthen networks, and support the continuous
+                            growth of every CSU alumni.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+    
+    <article class="container-spacing max-w-screen-2xl mx-auto">
+        <x-heading text="What We Do" />
+
+        <section class="gap-5 grid md:grid-cols-3">
+            @php
+                $heading = ['Alumni Directory', 'Tracer System', 'Decision-Support System'];
+                $icon = ['fa-address-book', 'fa-chart-line', 'fa-database'];
+                $description = [
+                    'Reconnect with fellow CSU alumni through our comprehensive directory. Search by name, graduation year, or program to find and connect with old friends and colleagues.',
+                    'Share your professional journey and stay updated with the latest career opportunities. Our Tracer System helps you track your progress and provides valuable insights for personal growth.',
+                    'Leverage data-driven insights to make informed decisions. Our Decision-Support System offers analytics and reports that help alumni and the university community understand trends and opportunities for development.'
+                ];
+            @endphp
+
+            @for ($i = 0; $i < 3; $i++)
+                <div>
+                    <div class="bg-red-900/10 border-2 border-red-900/20 hover:border-red-900/40 hover:bg-red-900/20 transition-all duration-300 ease-in-out rounded-lg p-5 h-full">
+                        <div class="text-red-900 mb-5 text-6xl">
+                            <i class="fa-solid {{ $icon[$i] }}"></i>
+                        </div>
+
+                        <h2 class="font-black font-montserrat text-xl mb-3 uppercase">{{ $heading[$i] }}</h2>
+
+                        <p class="leading-8">{{ $description[$i] }}</p>
+                    </div>
+                </div>
+            @endfor
+        </section>
+    </article>
+
+    <article class="bg-gray-100 container-spacing">
+        <section class="max-w-screen-2xl mx-auto">
+            <x-heading text="Alumni Organization" />
+
+            <div class="gap-5 grid md:grid-cols-2 items-center">
+                <section>
+                    <h2 class="font-bold font-montserrat text-3xl">CSUAN Ako Alumni Association</h2>
+
+                    <p class="leading-8 my-10 xl:w-[75%]">The CSUAN Ako Alumni Association is a dynamic community of graduates from Cagayan State University, dedicated to fostering lifelong connections, supporting professional growth, and contributing to the university's mission. Our association serves as a platform for networking, collaboration, and engagement among alumni, students, and faculty.</p>
+
+                    <p class="leading-8 mb-10 xl:w-[75%]">Through various events, initiatives, and programs, we aim to strengthen the bond between alumni and the university while promoting the values of excellence, integrity, and service. Join us in celebrating our shared heritage and making a positive impact on our communities.</p>
+                </section>
+
+                <section>
+                    <img class="rounded-lg shadow-lg" src="{{ asset('images/alumni_association.jpeg') }}" alt="CSUAN Ako Alumni Association">
+                </section>
+            </div>
+        </section>
+    </article>
     
     <section class="container-spacing" id="contact">
         <div class="max-w-screen-2xl mx-auto">

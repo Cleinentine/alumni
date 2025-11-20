@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Graduate extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'id',
         'user_id',
@@ -29,6 +32,11 @@ class Graduate extends Model
     public function feedback()
     {
         return $this->hasOne(Feedback::class);
+    }
+
+    public function program()
+    {
+        return $this->hasOne(Program::class, 'id', 'program_id');
     }
 
     public function user()
