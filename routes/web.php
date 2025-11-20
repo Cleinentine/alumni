@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactFormSubmissionController;
 use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\EmploymentController;
 use App\Http\Controllers\FeedbackController;
@@ -9,10 +10,13 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::get('/', [PagesController::class, 'index'])->name('home');
 Route::put('/', [UserController::class, 'logout'])->name('home');
-Route::post('/', [MailController::class, 'sendMessage'])->name('sendMessage');
+Route::post('/', [MailController::class, 'sendMessage'])
+    ->middleware(ProtectAgainstSpam::class)
+    ->name('sendMessage');
 
 Route::get('privacy', function () {
     return view('privacy');
@@ -54,14 +58,14 @@ Route::get('register', [UserController::class, 'create'])
     ->name('register');
 
 Route::post('login', [UserController::class, 'login'])->middleware('guest');
-Route::post('register', [UserController::class, 'store'])->middleware('guest');
+Route::post('register', [UserController::class, 'store'])->middleware(['guest', ProtectAgainstSpam::class]);
 
 /* -------- */
 
 /* SURFEY */
 
 Route::get('survey', [SurveyController::class, 'index'])->name('survey');
-Route::post('survey', [SurveyController::class, 'store']);
+Route::post('survey', [SurveyController::class, 'store'])->middleware(ProtectAgainstSpam::class);
 
 /* ------ */
 

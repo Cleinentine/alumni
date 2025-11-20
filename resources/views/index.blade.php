@@ -132,6 +132,7 @@
                     <form action="{{ route('sendMessage') }}/#contact" class="font-roboto" method="POST">
                         @csrf
                         @method("POST")
+                        @honeypot
 
                         @php
                             $hasValues = [0, 0];

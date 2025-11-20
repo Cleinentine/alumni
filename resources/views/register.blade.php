@@ -9,6 +9,7 @@
 
             <form action="{{ route('register') }}" method="POST">
                 @csrf
+                @honeypot
 
                 @php
                     $hasValues = [1, 1, 1, 1, 1];

@@ -9,6 +9,7 @@
 
             <form action="{{ route('survey') }}" method="POST">
                 @csrf
+                @honeypot
 
                 @php
                     $icons = ['fa-star', 'fa-eye'];
