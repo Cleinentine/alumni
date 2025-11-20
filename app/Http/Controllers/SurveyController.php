@@ -24,7 +24,7 @@ class SurveyController extends Controller
         $validator = Validator::make($request->all(), [
             'overall' => 'required|numeric|min:1|max:5',
             'reason' => 'required|in:To update my personal or professional information,To complete the alumni tracer survey,To search for fellow alumni in the directory,To verify alumni information (for employment or academic purposes),To donate or explore ways to support the institution',
-            'comment' => 'nullable|max:100'
+            'comment' => 'nullable|max:100',
         ]);
 
         if ($validator->fails()) {
@@ -36,7 +36,7 @@ class SurveyController extends Controller
             Survey::create([
                 'overall' => $request->overall,
                 'reason' => $request->reason,
-                'comment' => $request->comment
+                'comment' => $request->comment,
             ]);
 
             return redirect()

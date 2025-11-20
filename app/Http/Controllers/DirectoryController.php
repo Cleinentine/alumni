@@ -14,9 +14,9 @@ class DirectoryController extends Controller
         $validator = Validator::make($request->all(), [
             'sort' => 'required|in:asc,desc',
             'group' => 'nullable|exists:colleges,id',
-            'year' => 'required|integer|min:1960|max:' . date('Y'),
+            'year' => 'required|integer|min:1960|max:'.date('Y'),
             'limit' => 'required|in:25,50,100,200,500',
-            'keywords' => 'nullable|string|max:255'
+            'keywords' => 'nullable|string|max:255',
         ]);
 
         $group = $request->group;
@@ -33,18 +33,18 @@ class DirectoryController extends Controller
         if (empty($year) || $validator->fails()) {
             $year = date('Y');
         } else {
-            $yearMessage = ' on batch ' . $year;
+            $yearMessage = ' on batch '.$year;
         }
 
         if (empty($limit) || $validator->fails()) {
             $limit = 25;
         }
 
-        if (!empty($keywords)) {
-            $keywordMessage = ' for ' . '"' . $keywords . '"';
+        if (! empty($keywords)) {
+            $keywordMessage = ' for '.'"'.$keywords.'"';
         }
 
-        $text = 'No alumni records found' . $keywordMessage . $yearMessage;
+        $text = 'No alumni records found'.$keywordMessage.$yearMessage;
 
         $alumni = Graduate::search($keywords)->get();
         $colleges = College::get();
@@ -70,7 +70,7 @@ class DirectoryController extends Controller
         }
 
         if ($selectedCollege) {
-            $subtext = 'College of ' .  $selectedCollege->name;
+            $subtext = 'College of '.$selectedCollege->name;
         }
 
         return view('directory', [

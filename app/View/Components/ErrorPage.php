@@ -9,8 +9,11 @@ use Illuminate\View\Component;
 class ErrorPage extends Component
 {
     public $code;
+
     public $text;
+
     public $message;
+
     /**
      * Create a new component instance.
      */

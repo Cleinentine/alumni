@@ -9,6 +9,7 @@ use Illuminate\View\Component;
 class WarningTextbox extends Component
 {
     public $subtext;
+
     public $text;
 
     /**
