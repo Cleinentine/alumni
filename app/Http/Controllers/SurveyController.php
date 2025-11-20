@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Survey;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class SurveyController extends Controller
 {
@@ -11,15 +13,7 @@ class SurveyController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('survey');
     }
 
     /**
@@ -27,38 +21,27 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validator = Validator::make($request->all(), [
+            'overall' => 'required|numeric|min:1|max:5',
+            'reason' => 'required|in:To update my personal or professional information,To complete the alumni tracer survey,To search for fellow alumni in the directory,To verify alumni information (for employment or academic purposes),To donate or explore ways to support the institution',
+            'comment' => 'nullable|max:100'
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
+        if ($validator->fails()) {
+            return redirect()
+                ->route('survey')
+                ->withErrors($validator)
+                ->withInput();
+        } else {
+            Survey::create([
+                'overall' => $request->overall,
+                'reason' => $request->reason,
+                'comment' => $request->comment
+            ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+            return redirect()
+                ->route('survey')
+                ->with('successMessage', 'Survey has been successfully sent.');
+        }
     }
 }

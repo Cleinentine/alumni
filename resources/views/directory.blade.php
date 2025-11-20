@@ -108,6 +108,7 @@
         </section>
     </section>
 
+    @include('includes.survey-link')
     @include('includes.facebook')
     @include('includes.footer')
 @endsection

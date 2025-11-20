@@ -6,6 +6,7 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GraduateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,13 @@ Route::post('login', [UserController::class, 'login'])->middleware('guest');
 Route::post('register', [UserController::class, 'store'])->middleware('guest');
 
 /* -------- */
+
+/* SURFEY */
+
+Route::get('survey', [SurveyController::class, 'index'])->name('survey');
+Route::post('survey', [SurveyController::class, 'store']);
+
+/* ------ */
 
 /* TRACER */
 

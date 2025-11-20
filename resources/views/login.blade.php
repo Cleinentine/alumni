@@ -75,6 +75,7 @@
         </div>
     </section>
 
+    @include('includes.survey-link')
     @include('includes.facebook')
     @include('includes.footer')
     @vite(['resources/js/password-text.js'])
