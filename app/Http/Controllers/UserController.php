@@ -52,7 +52,23 @@ class UserController extends Controller
 
     public function loginForm()
     {
-        return view('login');
+        $hasValues = [1, 0];
+        $icons = ['fa-at', 'fa-lock'];
+        $ids = ['email', 'password'];
+        $labels = ['Email', 'Password'];
+        $placeholders = ['e.g. csuanako@email.com.ph', ''];
+        $types = ['email', 'password'];
+        $values = ['', ''];
+
+        return view('login', [
+            'hasValues' => $hasValues,
+            'icons' => $icons,
+            'ids' => $ids,
+            'labels' => $labels,
+            'placeholders' => $placeholders,
+            'types' => $types,
+            'values' => $values
+        ]);
     }
 
     public function logout()
@@ -94,7 +110,26 @@ class UserController extends Controller
 
     public function changePasswordFrom(string $token)
     {
-        return view('change', ['token' => $token]);
+        $hasValues = [1, 0, 0];
+        $icons = ['fa-at', 'fa-key', 'fa-redo'];
+        $ids = ['email', 'password', 'password-confirmation'];
+        $labels = ['Email', 'New Password', 'Repeat New Password'];
+        $names = ['email', 'password', 'password_confirmation'];
+        $placeholders = ['e.g. csuanako@email.com.ph', '', ''];
+        $types = ['email', 'password', 'password'];
+        $values = ['', '', ''];
+
+        return view('change', [
+            'hasValues' => $hasValues,
+            'icons' => $icons,
+            'ids' => $ids,
+            'labels' => $labels,
+            'names' => $names,
+            'placeholders' => $placeholders,
+            'token' => $token,
+            'types' => $types,
+            'values' => $values
+        ]);
     }
 
     public function resetPassword(Request $request)
@@ -119,27 +154,34 @@ class UserController extends Controller
 
     public function create()
     {
+
+        $cities = '';
+        $hasValues = [1, 1, 1, 1, 1];
+        $selected = ['', ''];
+        $states = '';
+        $values = ['first_name', 'middle_name', 'last_name', 'birth_date', 'year_graduated'];
+
         $countries = DB::table('countries')
             ->orderBy('name', 'ASC')
             ->get(['id', 'name']);
 
         $programs = Program::get();
 
-        $cities = '';
-        $states = '';
-
         return view('register', [
-            'countries' => json_decode($countries, true),
-            'programs' => $programs,
             'cities' => $cities,
+            'countries' => json_decode($countries, true),
+            'hasValues' => $hasValues,
+            'programs' => $programs,
+            'selected' => $selected,
             'states' => $states,
+            'values' => $values,
         ]);
     }
 
     public function update(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email,'.Auth::user()->id,
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
             'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
             'password' => 'nullable|confirmed',
             'password_confirmation' => 'nullable',
@@ -183,7 +225,7 @@ class UserController extends Controller
             'country' => 'required|exists:countries,id',
             'state' => 'nullable|exists:states,id',
             'city' => 'nullable|exists:cities,id',
-            'year_graduated' => 'required|integer|digits:4|min:1960|max:'.date('Y'),
+            'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
             'gender' => 'required|in:Male,Female',
             'programs' => 'required|exists:programs,id',
 

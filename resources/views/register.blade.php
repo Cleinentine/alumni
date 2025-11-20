@@ -11,12 +11,6 @@
                 @csrf
                 @honeypot
 
-                @php
-                    $hasValues = [1, 1, 1, 1, 1];
-                    $selected = ['', ''];
-                    $values = ['first_name', 'middle_name', 'last_name', 'birth_date', 'year_graduated'];
-                @endphp
-
                 @include('includes.graduate-form')
                 @include('includes.user-form')
 

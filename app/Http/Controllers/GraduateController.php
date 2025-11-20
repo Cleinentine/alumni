@@ -19,6 +19,17 @@ class GraduateController extends Controller
         $graduate = Graduate::where('user_id', Auth::user()->id)->first();
         $programs = Program::get();
 
+        $hasValues = [0, 0, 0, 0, 0];
+        $selected = [$graduate->gender, $graduate->program_id];
+
+        $values = [
+            $graduate->first_name,
+            $graduate->middle_name,
+            $graduate->last_name,
+            $graduate->birth_date,
+            $graduate->year_graduated
+        ];
+
         $countries = DB::table('countries')
             ->orderBy('name', 'asc')
             ->get(['id', 'name']);
@@ -65,10 +76,13 @@ class GraduateController extends Controller
             'cities' => $cities,
             'countries' => $countries,
             'graduate' => $graduate,
+            'hasValues' => $hasValues,
             'programs' => $programs,
+            'selected' => $selected,
             'selectedCity' => $selectedCity,
             'selectedState' => $selectedState,
             'states' => $states,
+            'values' => $values
         ]);
     }
 
@@ -107,7 +121,7 @@ class GraduateController extends Controller
                 'country' => 'required|exists:countries,id',
                 'state' => 'nullable|exists:states,id',
                 'city' => 'nullable|exists:cities,id',
-                'year_graduated' => 'required|integer|digits:4|min:1960|max:'.date('Y'),
+                'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
                 'gender' => 'required|in:Male,Female',
                 'programs' => 'required|exists:programs,id',
             ]);

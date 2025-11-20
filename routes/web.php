@@ -5,6 +5,7 @@ use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\EmploymentController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GraduateController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\SurveyController;
@@ -14,12 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
-Route::get('/', [PagesController::class, 'index'])->name('home');
-Route::put('/', [UserController::class, 'logout'])->name('home');
-Route::post('/', [MailController::class, 'sendMessage'])
-    ->middleware(ProtectAgainstSpam::class)
-    ->name('sendMessage');
-
 Route::get('privacy', function () {
     return view('privacy');
 })->name('privacy');
@@ -27,6 +22,16 @@ Route::get('privacy', function () {
 Route::get('terms', function () {
     return view('terms');
 })->name('terms');
+
+/* HOMEPAGE */
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::post('/', [HomeController::class, 'send'])
+    ->middleware(ProtectAgainstSpam::class)
+    ->name('send');
+
+/* -------- */
 
 /* DIRECTORY */
 
@@ -81,6 +86,7 @@ Route::get('register', [UserController::class, 'create'])
 
 Route::post('login', [UserController::class, 'login'])->middleware('guest');
 Route::post('register', [UserController::class, 'store'])->middleware(['guest', ProtectAgainstSpam::class]);
+Route::put('/', [UserController::class, 'logout'])->name('home');
 
 /* -------- */
 

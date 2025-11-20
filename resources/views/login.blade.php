@@ -10,16 +10,6 @@
             <form action="{{ route('login') }}" method="POST">
                 @csrf
 
-                @php
-                    $hasValues = [1, 0];
-                    $icons = ['fa-at', 'fa-lock'];
-                    $ids = ['email', 'password'];
-                    $labels = ['Email', 'Password'];
-                    $placeholders = ['e.g. csuanako@email.com.ph', ''];
-                    $types = ['email', 'password'];
-                    $values = ['', ''];
-                @endphp
-
                 @for ($i = 0; $i < count($ids); $i++)
                     <div class="mt-5">
                         <x-label for="{{ $ids[$i] }}" text="{{ $labels[$i] }}" />

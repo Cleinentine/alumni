@@ -32,16 +32,6 @@
         <x-heading text="What We Do" />
 
         <section class="gap-5 grid md:grid-cols-3">
-            @php
-                $heading = ['Alumni Directory', 'Tracer System', 'Decision-Support System'];
-                $icon = ['fa-address-book', 'fa-chart-line', 'fa-database'];
-                $description = [
-                    'Reconnect with fellow CSU alumni through our comprehensive directory. Search by name, graduation year, or program to find and connect with old friends and colleagues.',
-                    'Share your professional journey and stay updated with the latest career opportunities. Our Tracer System helps you track your progress and provides valuable insights for personal growth.',
-                    'Leverage data-driven insights to make informed decisions. Our Decision-Support System offers analytics and reports that help alumni and the university community understand trends and opportunities for development.'
-                ];
-            @endphp
-
             @for ($i = 0; $i < 3; $i++)
                 <div>
                     <div class="bg-red-900/10 border-2 border-red-900/20 hover:border-red-900/40 hover:bg-red-900/20 transition-all duration-300 ease-in-out rounded-lg p-5 h-full">
@@ -90,12 +80,6 @@
                     <p class="leading-8 mb-10 xl:w-[75%]">Everyone gets a personalized response, so please allow 24 hours during business hours for a reply. Our business hours are M-F from 9am to 5pm PST.</p>
 
                     <contact>
-                        @php
-                            $contact_headings = ['Address', 'Contact Email', 'Contact Numbers'];
-                            $contact_icons = ['fa-map-location-dot', 'fa-at', 'fa-phone'];
-                            $contact_details = ['Maura, Aparri, Cagayan, 3515', $contact->contact_email, $contact->contact_number];
-                        @endphp
-
                         @for ($i = 0; $i < count($contact_details); $i++)
                             <h2 class="font-bold font-montserrat @if ($i == 1) mt-5 @endif uppercase">
                                 <span>
@@ -129,20 +113,10 @@
                 </section>
 
                 <section>
-                    <form action="{{ route('sendMessage') }}/#contact" class="font-roboto" method="POST">
+                    <form action="{{ route('send') }}/#contact" class="font-roboto" method="POST">
                         @csrf
                         @method("POST")
                         @honeypot
-
-                        @php
-                            $hasValues = [0, 0];
-                            $icons = ['fa-tag', 'fa-at'];
-                            $ids = ['name', 'email'];
-                            $labels = ['Name', 'Email'];
-                            $placeholders = ['e.g. John Smith', 'e.g. csuanako@email.com.ph'];
-                            $types = ['text', 'email'];
-                            $values = ['', ''];
-                        @endphp
 
                         @for ($i = 0; $i < count($ids); $i++)
                             <div class="mt-5">
@@ -165,16 +139,6 @@
                         @endfor
 
                         <div class="mt-5">
-                            @php
-                                $subjects = [
-                                    'Bug Report',
-                                    'Directory',
-                                    'Registration',
-                                    'Tracer',
-                                    'Other'
-                                ];
-                            @endphp
-
                             <x-label for="subject" text="Subject" />
 
                             <x-select

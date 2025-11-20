@@ -19,6 +19,40 @@ class EmploymentController extends Controller
         $employment = Employment::where('graduate_id', Auth::user()->graduate->id)->first();
         $industries = Industry::get();
 
+        !$employment
+            ? $hasValues = [1, 1, 1]
+            : $hasValues = [0, 0, 0];
+
+        !$employment
+            ? $values = ['title', 'company', 'time_to_first_job']
+            : $values = [$employment->title, $employment->company, $employment->time_to_first_job];
+
+        !$employment
+            ? $selected = ['', '', '']
+            : $selected = [$employment->status, $employment->industry_id, $employment->search_methods];
+
+        $displayTexts = [
+            ['Full-time', 'Part-time', 'Temporary/Seasonal', 'Self-Employed', 'Unemployed'],
+            $industries,
+            ['JobStreet', 'LinkedIn', 'Indeed', 'Kalibrr', 'PhilJobNet', 'Others']
+        ];
+
+        $icons = ['fa-user-tie', 'fa-building', 'fa-calendar-days'];
+        $ids = ['status-id', 'industries-id', 'search-methods-id'];
+        $labels = ['Job Title', 'Company Name', 'Months before your First Job'];
+        $loops = [count($displayTexts[0]), count($industries), count($displayTexts[2])];
+        $names = ['title', 'company', 'time_to_first_job'];
+        $placeholders = ['e.g. Chief Executive Officer', 'e.g. Cagayan State University', 'e.g. 9'];
+        $selectIcons = ['fa-person-walking-luggage', 'fa-industry', 'fa-magnifying-glass'];
+        $selectLabels = ['Employment Status (Required)', 'Company Industry', 'Job Search Methods'];
+        $selectNames = ['status', 'industry', 'search_methods'];
+        $specials = ['', 'industries', ''];
+        $types = ['text', 'text', 'number'];
+
+        $selectedCity = $employment->city_id;
+        $selectedCountry = $employment->country_id;
+        $selectedState = $employment->state_id;
+
         $countries = DB::table('countries')
             ->orderBy('name', 'asc')
             ->get(['id', 'name']);
@@ -59,9 +93,27 @@ class EmploymentController extends Controller
         return view('tracer.employment', [
             'cities' => $cities,
             'countries' => $countries,
+            'displayTexts' => $displayTexts,
             'employment' => $employment,
+            'hasValues' => $hasValues,
+            'icons' => $icons,
+            'ids' => $ids,
             'industries' => $industries,
+            'labels' => $labels,
+            'loops' => $loops,
+            'names' => $names,
+            'placeholders' => $placeholders,
+            'selected' => $selected,
+            'selectedCity' => $selectedCity,
+            'selectedCountry' => $selectedCountry,
+            'selectedState' => $selectedState,
+            'selectIcons' => $selectIcons,
+            'selectLabels' => $selectLabels,
+            'selectNames' => $selectNames,
+            'specials' => $specials,
             'states' => $states,
+            'types' => $types,
+            'values' => $values
         ]);
     }
 

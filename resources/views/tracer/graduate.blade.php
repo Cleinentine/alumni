@@ -13,19 +13,6 @@
                     <x-success-message :message="session('successMessage')" />
                 @endif
             </div>
-
-            @php
-                $hasValues = [0, 0, 0, 0, 0];
-                $selected = [$graduate->gender, $graduate->program_id];
-
-                $values = [
-                    $graduate->first_name,
-                    $graduate->middle_name,
-                    $graduate->last_name,
-                    $graduate->birth_date,
-                    $graduate->year_graduated
-                ];
-            @endphp
             
             <form action="{{ route('tracerGraduate') }}" method="POST">
                 @csrf

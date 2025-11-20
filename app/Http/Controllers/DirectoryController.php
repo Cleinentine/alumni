@@ -14,7 +14,7 @@ class DirectoryController extends Controller
         $validator = Validator::make($request->all(), [
             'sort' => 'required|in:asc,desc',
             'group' => 'nullable|exists:colleges,id',
-            'year' => 'required|integer|min:1960|max:'.date('Y'),
+            'year' => 'required|integer|min:1960|max:' . date('Y'),
             'limit' => 'required|in:25,50,100,200,500',
             'keywords' => 'nullable|string|max:255',
         ]);
@@ -33,7 +33,7 @@ class DirectoryController extends Controller
         if (empty($year) || $validator->fails()) {
             $year = date('Y');
         } else {
-            $yearMessage = ' on batch '.$year;
+            $yearMessage = ' on batch ' . $year;
         }
 
         if (empty($limit) || $validator->fails()) {
@@ -41,14 +41,35 @@ class DirectoryController extends Controller
         }
 
         if (! empty($keywords)) {
-            $keywordMessage = ' for '.'"'.$keywords.'"';
+            $keywordMessage = ' for ' . '"' . $keywords . '"';
         }
 
-        $text = 'No alumni records found'.$keywordMessage.$yearMessage;
+        $text = 'No alumni records found' . $keywordMessage . $yearMessage;
 
         $alumni = Graduate::search($keywords)->get();
         $colleges = College::get();
         $selectedCollege = College::where('id', $group)->first();
+
+        $displayTexts = [
+            ['Last Name A-Z', 'Last Name Z-A'],
+            $colleges,
+            range(1960, date('Y')),
+            ['25', '50', '100', '200', '500']
+        ];
+
+        $icons = ['fa-sort', 'fa-building-columns', 'fa-graduation-cap', 'fa-arrow-down-1-9'];
+        $labels = ['Sort By Name', 'Filter By College', 'Filter By Year', 'Results per Page'];
+        $names = ['sort', 'group', 'year', 'limit'];
+        $loops = [count($displayTexts[0]), count($displayTexts[1]), count($displayTexts[2]), count($displayTexts[3])];
+        $selected = [$sort, $group, $year, $limit];
+        $specials = ['', 'colleges', '', ''];
+
+        $values = [
+            ['asc', 'desc'],
+            $colleges,
+            range(1960, date('Y')),
+            [25, 50, 100, 200, 500]
+        ];
 
         if (empty($group)) {
             $graduates = Graduate::query()
@@ -70,20 +91,28 @@ class DirectoryController extends Controller
         }
 
         if ($selectedCollege) {
-            $subtext = 'College of '.$selectedCollege->name;
+            $subtext = 'College of ' . $selectedCollege->name;
         }
 
         return view('directory', [
             'colleges' => $colleges,
+            'displayTexts' => $displayTexts,
             'graduates' => $graduates,
             'group' => $group,
+            'icons' => $icons,
             'keywords' => $keywords,
+            'labels' => $labels,
             'limit' => $limit,
+            'loops' => $loops,
+            'names' => $names,
+            'selected' => $selected,
             'selectedCollege' => $selectedCollege,
             'sort' => $sort,
+            'specials' => $specials,
             'subtext' => $subtext,
             'text' => $text,
-            'year' => $year,
+            'values' => $values,
+            'year' => $year
         ]);
     }
 }

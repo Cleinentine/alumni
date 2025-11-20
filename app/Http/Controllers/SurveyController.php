@@ -13,7 +13,32 @@ class SurveyController extends Controller
      */
     public function index()
     {
-        return view('survey');
+
+        $icons = ['fa-star', 'fa-eye'];
+        $labels = ['Overall Experience (Required)', 'Reason of Visit (Required)'];
+        $loops = [5, 5];
+        $names = ['overall', 'reason'];
+        $specials = ['', ''];
+
+        $values = [
+            [5, 4, 3, 2, 1],
+            [
+                'To update my personal or professional information',
+                'To complete the alumni tracer survey',
+                'To search for fellow alumni in the directory',
+                'To verify alumni information (for employment or academic purposes)',
+                'To donate or explore ways to support the institution'
+            ]
+        ];
+
+        return view('survey', [
+            'icons' => $icons,
+            'labels' => $labels,
+            'loops' => $loops,
+            'names' => $names,
+            'specials' => $specials,
+            'values' => $values
+        ]);
     }
 
     /**
