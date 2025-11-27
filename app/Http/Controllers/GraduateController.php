@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class GraduateController extends Controller
 {
@@ -20,37 +21,50 @@ class GraduateController extends Controller
         $programs = Program::get();
 
         $hasValues = [0, 0, 0, 0, 0];
-        $selected = [$graduate->gender, $graduate->program_id];
 
-        $values = [
-            $graduate->first_name,
-            $graduate->middle_name,
-            $graduate->last_name,
-            $graduate->birth_date,
-            $graduate->year_graduated
-        ];
+        !$graduate
+            ? $selected = ['', '']
+            : $selected = [$graduate->gender, $graduate->program_id];
+
+        !$graduate
+            ? $values = ['', '', '', '', '']
+            : $values = [
+                $graduate->first_name,
+                $graduate->middle_name,
+                $graduate->last_name,
+                $graduate->birth_date,
+                $graduate->year_graduated
+            ];
+
+        if (Auth::user()->roles <= 3) {
+            $country_id = 0;
+            $state_id = 0;
+        } else {
+            $country_id = $graduate->country_id;
+            $state_id = $graduate->state_id;
+        }
 
         $countries = DB::table('countries')
             ->orderBy('name', 'asc')
             ->get(['id', 'name']);
 
         $selectedCity = DB::table('cities')
-            ->where('state_id', $graduate->state_id)
+            ->where('state_id', $state_id)
             ->orderBy('name', 'asc')
             ->get(['id'], ['name']);
 
         $selectedState = DB::table('states')
-            ->where('country_id', $graduate->country_id)
+            ->where('country_id', $country_id)
             ->orderBy('name', 'asc')
             ->get(['id', 'name']);
 
         $states = DB::table('states')
-            ->where('country_id', $graduate->country_id)
+            ->where('country_id', $country_id)
             ->orderBy('name', 'asc')
             ->get(['id', 'name']);
 
         $cities = DB::table('cities')
-            ->where('state_id', $graduate->state_id)
+            ->where('state_id', $state_id)
             ->orderBy('name', 'asc')
             ->get(['id', 'name']);
 
@@ -86,41 +100,24 @@ class GraduateController extends Controller
         ]);
     }
 
-    public function getStates(Request $request)
-    {
-        $data = $request->country_id;
-
-        $states = DB::table('states')
-            ->where('country_id', $data)
-            ->orderBy('name', 'ASC')
-            ->get(['id', 'name']);
-
-        return response()->json($states);
-    }
-
-    public function getCities(Request $request)
-    {
-        $data = $request->state_id;
-
-        $cities = DB::table('cities')
-            ->where('state_id', $data)
-            ->orderBy('name', 'ASC')
-            ->get(['id', 'name']);
-
-        return response()->json($cities);
-    }
-
     public function update(Request $request)
     {
         if (Auth::user()->roles == 4) {
+            $checkAlumni = Graduate::where('user_id', '!=', Auth::user()->id)
+                ->where('program_id', $request->program_id)
+                ->where('first_name', $request->first_name)
+                ->where('last_name', $request->last_name)
+                ->where('year_graduated', $request->year_graduated)
+                ->first();
+
             $validator = Validator::make($request->all(), [
                 'first_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'middle_name' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'last_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'birth_date' => 'required|date|before:-18 years',
                 'country' => 'required|exists:countries,id',
-                'state' => 'nullable|exists:states,id',
-                'city' => 'nullable|exists:cities,id',
+                'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
+                'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
                 'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
                 'gender' => 'required|in:Male,Female',
                 'programs' => 'required|exists:programs,id',
@@ -130,6 +127,12 @@ class GraduateController extends Controller
                 return redirect()
                     ->route('tracerGraduate')
                     ->withErrors($validator)
+                    ->withInput();
+            } else if ($checkAlumni) {
+                return redirect()
+                    ->route('tracerGraduate')
+                    ->with('duplicateData', 'Alumni with the same data already exists.')
+                    ->withErrors(($validator))
                     ->withInput();
             } else {
                 Graduate::where('id', Auth::user()->graduate->id)

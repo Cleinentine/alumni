@@ -61,7 +61,7 @@
 @endfor
 
 @php
-    if (Auth::check()) {
+    if (Auth::check() && Auth::user()->roles >= 4) {
         $selectedCity = $graduate->city_id;
         $selectedCountry = $graduate->country_id;
         $selectedState = $graduate->state_id;

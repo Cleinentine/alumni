@@ -8,6 +8,8 @@ class Feedback extends Model
 {
     public $timestamps = false;
 
+    protected $primaryKey = 'graduate_id';
+
     protected $fillable = [
         'graduate_id',
         'relevance',

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class EmploymentController extends Controller
 {
@@ -16,7 +17,13 @@ class EmploymentController extends Controller
      */
     public function index()
     {
-        $employment = Employment::where('graduate_id', Auth::user()->graduate->id)->first();
+        if (Auth::user()->roles <= 3) {
+            $graduate_id = 0;
+        } else {
+            $graduate_id = Auth::user()->graduate->id;
+        }
+
+        $employment = Employment::where('graduate_id', $graduate_id)->first();
         $industries = Industry::get();
 
         !$employment
@@ -49,9 +56,15 @@ class EmploymentController extends Controller
         $specials = ['', 'industries', ''];
         $types = ['text', 'text', 'number'];
 
-        $selectedCity = $employment->city_id;
-        $selectedCountry = $employment->country_id;
-        $selectedState = $employment->state_id;
+        if (!$employment) {
+            $selectedCity = '';
+            $selectedCountry = '';
+            $selectedState = '';
+        } else {
+            $selectedCity = $employment->city_id;
+            $selectedCountry = $employment->country_id;
+            $selectedState = $employment->state_id;
+        }
 
         $countries = DB::table('countries')
             ->orderBy('name', 'asc')
@@ -129,8 +142,8 @@ class EmploymentController extends Controller
                 'search_methods' => 'nullable|in:JobStreet,LinkedIn,Indeed,Kalibrr,PhilJobNet,Others',
                 'unemployment' => 'nullable|max:100',
                 'country' => 'nullable|exists:countries,id',
-                'state' => 'nullable|exists:states,id',
-                'city' => 'nullable|exists:cities,id',
+                'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
+                'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
             ]);
 
             if ($validator->fails()) {

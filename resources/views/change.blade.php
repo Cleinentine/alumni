@@ -13,7 +13,7 @@
                 <input name="token" type="hidden" value="{{ $token }}">
 
                 @for ($i = 0; $i < count($ids); $i++)
-                    <div class="mt-5">
+                    <div class="mt-10">
                         <x-label for="{{ $ids[$i] }}" text="{{ $labels[$i] }}" />
 
                         <x-input
@@ -34,7 +34,7 @@
 
                 <x-button icon="fa-edit" text="Change Password" />
 
-                <div class="mt-5 text-center">
+                <div class="mt-10 text-center">
                     @if (session('successMessage'))
                         <x-success-message :message="session('successMessage')" />
                     @endif

@@ -88,7 +88,7 @@
                         <a class="hover:underline" href="{{ route('tracerEmployment') }}">Employment Data</a>
                     </li>
 
-                    @if (!Auth::user()->graduate->feedback)
+                    @if (empty(Auth::user()->graduate->feedback))
                         <li class="mt-1">
                             <a class="hover:underline" href="{{ route('tracerFeedback') }}">University Feedback</a>
                         </li>

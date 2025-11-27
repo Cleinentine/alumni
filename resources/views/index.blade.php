@@ -52,7 +52,7 @@
         <section class="max-w-screen-2xl mx-auto">
             <x-heading text="Alumni Organization" />
 
-            <div class="gap-5 grid md:grid-cols-2 items-center">
+            <div class="gap-5 grid items-center lg:grid-cols-2">
                 <section>
                     <h2 class="font-bold font-montserrat text-3xl">CSUAN Ako Alumni Association</h2>
 
@@ -62,7 +62,7 @@
                 </section>
 
                 <section>
-                    <img class="rounded-lg shadow-lg" src="{{ asset('images/alumni_association.jpeg') }}" alt="CSUAN Ako Alumni Association">
+                    <img class="rounded-lg shadow-lg" src="{{ asset('images/organization.png') }}" alt="CSUA Alumni Association">
                 </section>
             </div>
         </section>
@@ -119,7 +119,7 @@
                         @honeypot
 
                         @for ($i = 0; $i < count($ids); $i++)
-                            <div class="mt-5">
+                            <div class="mt-10">
                                 <x-label for="{{ $ids[$i] }}" text="{{ $labels[$i] }}" />
 
                                 <x-input
@@ -138,8 +138,8 @@
                             </div>
                         @endfor
 
-                        <div class="mt-5">
-                            <x-label for="subject" text="Subject" />
+                        <div class="mt-10">
+                            <x-label for="subject" text="Subject (Required)" />
 
                             <x-select
                                 icon="fa-folder-open"
@@ -158,8 +158,8 @@
                             @enderror
                         </div>
 
-                        <div class="mt-5">
-                            <x-label for="message" text="Message" />
+                        <div class="mt-10">
+                            <x-label for="message" text="Message (Required)" />
 
                             <x-textbox
                                 id="message"

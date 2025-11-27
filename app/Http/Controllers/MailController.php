@@ -15,7 +15,7 @@ class MailController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'subject' => 'required|in:Bug Report,Directory,Registration,Tracer,Other',
-            'message' => 'required|max:250',
+            'message' => 'required|max:100',
         ]);
 
         if ($validator->fails()) {
@@ -24,7 +24,7 @@ class MailController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         } else {
-            Mail::to('cleinentine@gmail.com')->send(new SendMessage($request));
+            Mail::to($request->email)->send(new SendMessage($request));
 
             return redirect()->route('home');
         }

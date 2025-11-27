@@ -10,7 +10,7 @@
             <form action="{{ route('password.request') }}" method="POST">
                 @csrf
 
-                <div class="mt-5">
+                <div>
                     <x-label for="email" text="Email" />
 
                     <x-input
@@ -30,7 +30,7 @@
 
                 <x-button icon="fa-paper-plane" text="Reset Password" />
 
-                <div class="mt-5 text-center">
+                <div class="mt-10 text-center">
                     @if (session('successMessage'))
                         <x-success-message :message="session('successMessage')" />
                     @endif

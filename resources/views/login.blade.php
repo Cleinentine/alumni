@@ -11,7 +11,7 @@
                 @csrf
 
                 @for ($i = 0; $i < count($ids); $i++)
-                    <div class="mt-5">
+                    <div class="mt-10">
                         <x-label for="{{ $ids[$i] }}" text="{{ $labels[$i] }}" />
 
                         <x-input
@@ -46,7 +46,7 @@
 
                 <x-button icon="fa-right-to-bracket" text="Sign In" />
 
-                <div class="mt-5 text-center">
+                <div class="mt-10 text-center">
                     @if (session('errorMessage'))
                         <x-error-message :message="session('errorMessage')" />
                     @elseif (session('successMessage'))

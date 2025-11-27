@@ -8,7 +8,7 @@ class College extends Model
 {
     protected $fillable = ['id', 'name'];
 
-    public function program()
+    public function programs()
     {
         return $this->hasMany(Program::class);
     }

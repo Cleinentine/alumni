@@ -23,6 +23,15 @@ class UserController extends Controller
         return view('tracer.account');
     }
 
+    public function verify()
+    {
+        if (Auth::user()->email_verified_at === null) {
+            return view('verify');
+        } else {
+            return redirect()->route('tracerGraduate');
+        }
+    }
+
     /* LOGIN & LOGOUT */
 
     public function login(Request $request)
@@ -223,8 +232,8 @@ class UserController extends Controller
             'last_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
             'birth_date' => 'required|date|before:-18 years',
             'country' => 'required|exists:countries,id',
-            'state' => 'nullable|exists:states,id',
-            'city' => 'nullable|exists:cities,id',
+            'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
+            'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
             'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
             'gender' => 'required|in:Male,Female',
             'programs' => 'required|exists:programs,id',

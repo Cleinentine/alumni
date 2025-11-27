@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressFormController;
 use App\Http\Controllers\ContactFormSubmissionController;
 use App\Http\Controllers\DirectoryController;
 use App\Http\Controllers\EmploymentController;
@@ -41,9 +42,9 @@ Route::get('directory', [DirectoryController::class, 'index'])->name('directory'
 
 /* EMAIL VERIFICATION */
 
-Route::get('verify', function () {
-    return view('verify');
-})->middleware('auth')->name('verification.notice');
+Route::get('verify', [UserController::class, 'verify'])
+    ->middleware('auth')
+    ->name('verification.notice');
 
 Route::get('/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
@@ -120,5 +121,13 @@ Route::post('tracer/employment', [EmploymentController::class, 'update'])->middl
 Route::post('tracer/feedback', [FeedbackController::class, 'store'])->middleware(['auth', 'verified']);
 Route::post('tracer/account', [UserController::class, 'update'])->middleware(['auth', 'verified']);
 
-Route::post('tracer/countries', [GraduateController::class, 'getStates']);
-Route::post('tracer/states', [GraduateController::class, 'getCities']);
+Route::post('tracer/countries', [AddressFormController::class, 'getStates']);
+Route::post('tracer/states', [AddressFormController::class, 'getCities']);
+
+Route::match(['get', 'put', 'patch', 'delete', 'options'], 'tracer/states', function () {
+    abort(404);
+});
+
+Route::match(['get', 'put', 'patch', 'delete', 'options'], 'tracer/cities', function () {
+    abort(404);
+});

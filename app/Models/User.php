@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Filament\Models\Contracts\HasName;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Propaganistas\LaravelPhone\Casts\E164PhoneNumberCast;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, HasName
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -47,6 +48,13 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
             'phone' => E164PhoneNumberCast::class,
         ];
+    }
+
+    public function getFilamentName(): string
+    {
+        // Return any string — e.g. combine first_name + last_name,
+        // or fallback to email if name is not set
+        return "{$this->first_name} {$this->last_name}" ?: $this->email;
     }
 
     public function graduate()

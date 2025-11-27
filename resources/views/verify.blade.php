@@ -18,12 +18,6 @@
                     <x-success-message :message="session('message')" />
                 @endif
             </div>
-
-            @if (!Auth::user()->email_verified_at)
-                <x-horizontal-rule />
-
-                <p class="text-center">An email was sent to your email upon registration. Please check to be verified to continue.</p>
-            @endif
         </div>
     </section>
 

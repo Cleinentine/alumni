@@ -14,7 +14,13 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        $feedback = Feedback::where('graduate_id', Auth::user()->graduate->id)->first();
+        if (Auth::user()->roles >= 4) {
+            $graduate_id = Auth::user()->graduate->id;
+        } else {
+            $graduate_id = 0;
+        }
+
+        $feedback = Feedback::where('graduate_id', $graduate_id)->first();
 
         if (!$feedback) {
             $ratingDisplayTexts = ['5 - Excellent', '4 - Good', '3 - Neutral', '2 - Poor', '1 - Very Poor'];

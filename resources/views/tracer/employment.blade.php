@@ -79,6 +79,6 @@
         @include('includes.survey-link')
         @include('includes.facebook')
         @include('includes.footer')
-        @vite(['app/js/address-dropdown-selectr.js'])
+        @vite(['resources/js/employment-form-dropdown.js'])
     </section>
 @endsection

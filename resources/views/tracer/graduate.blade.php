@@ -9,7 +9,9 @@
             <x-heading text="Alumni Profile" />
 
             <div class="text-center">
-                @if (session('successMessage'))
+                @if (session('duplicateData'))
+                    <x-error-message :message="session('duplicateData')" />
+                @elseif (session('successMessage'))
                     <x-success-message :message="session('successMessage')" />
                 @endif
             </div>

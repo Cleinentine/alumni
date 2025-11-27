@@ -72,14 +72,14 @@
                             </div>
                         </div>
 
-                        <div class="text-xs text-white">
+                        <div class="text-sm text-white">
                             @if ($graduate->employment)
-                                @if (!empty($gradute->employment->title))
-                                    <h6 class="bg-red-900 inline-block p-3 rounded-md">{{ $graduate->employment->title }}</h6>
+                                @if (!empty($graduate->employment->title))
+                                    <h6 class="bg-red-900 inline-block p-1 rounded-md">{{ $graduate->employment->title }}</h6>
                                 @endif
 
                                 @if (!empty($graduate->employment->industry->name))
-                                    <h6 class="bg-red-900 inline-block mt-3 p-3 rounded-md">{{ $graduate->employment->industry->name }}</h6>
+                                    <h6 class="bg-red-900 inline-block mt-3 p-1 rounded-md">{{ $graduate->employment->industry->name }}</h6>
                                 @endif
                             @endif
                         </div>
