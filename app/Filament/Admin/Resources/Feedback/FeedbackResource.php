@@ -45,4 +45,9 @@ class FeedbackResource extends Resource
             'edit' => EditFeedback::route('/{record}/edit'),
         ];
     }
+
+    public static function redirectAfterCreate($record): string
+    {
+        return route('filament.resources.feedbacks.edit', ['record' => $record->graduate_id]);
+    }
 }

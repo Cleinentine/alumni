@@ -14,7 +14,7 @@ class UsersTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->query(User::whereIn('roles', [1, 2, 3]))
+            ->query(User::whereIn('roles', [1, 2]))
             ->columns([
                 TextColumn::make('email'),
                 TextColumn::make('roles'),

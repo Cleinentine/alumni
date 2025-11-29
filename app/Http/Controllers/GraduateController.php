@@ -36,7 +36,7 @@ class GraduateController extends Controller
                 $graduate->year_graduated
             ];
 
-        if (Auth::user()->roles <= 3) {
+        if (Auth::user()->roles <= 2) {
             $country_id = 0;
             $state_id = 0;
         } else {
@@ -102,7 +102,7 @@ class GraduateController extends Controller
 
     public function update(Request $request)
     {
-        if (Auth::user()->roles == 4) {
+        if (Auth::user()->roles >= 3) {
             $checkAlumni = Graduate::where('user_id', '!=', Auth::user()->id)
                 ->where('program_id', $request->program_id)
                 ->where('first_name', $request->first_name)

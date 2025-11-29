@@ -17,7 +17,7 @@ class EmploymentController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->roles <= 3) {
+        if (Auth::user()->roles <= 2) {
             $graduate_id = 0;
         } else {
             $graduate_id = Auth::user()->graduate->id;
@@ -132,7 +132,7 @@ class EmploymentController extends Controller
 
     public function update(Request $request)
     {
-        if (Auth::user()->roles == 4) {
+        if (Auth::user()->roles >= 3) {
             $validator = Validator::make($request->all(), [
                 'title' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'company' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',

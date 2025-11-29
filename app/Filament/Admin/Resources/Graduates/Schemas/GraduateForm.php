@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Resources\Graduates\Schemas;
 
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -86,10 +87,26 @@ class GraduateForm
                             ->rules(['phone:INTERNATIONAL,PH']),
                         TextInput::make('password')
                             ->password()
-                            ->nullable(),
-                        TextInput::make('role')
-                            ->numeric()
-                            ->default(4), // for example
+                            ->revealable()
+                            ->nullable()
+
+                            // Only required on Create
+                            ->required(fn(string $context) => $context === 'create')
+
+                            // Only update if not empty (Edit only)
+                            ->dehydrated(
+                                fn($state, string $context) =>
+                                $context === 'edit' && filled($state)
+                            )
+
+                            // Hash only when updating/saving
+                            ->dehydrateStateUsing(
+                                fn($state) =>
+                                filled($state) ? Hash::make($state) : null
+                            ),
+                        Hidden::make('role')
+                            ->default(3) // for example
+                            ->dehydrated(),
                     ]),
 
                 Section::make('Employment')

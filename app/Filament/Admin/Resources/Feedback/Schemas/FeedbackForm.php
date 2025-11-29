@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources\Feedback\Schemas;
 
 use App\Models\Graduate;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
@@ -54,6 +55,10 @@ class FeedbackForm
                         2 => '2 - Bad',
                         1 => '1 - Very Bad'
                     ]),
+                Checkbox::make('post_graduate')
+                    ->label('Pursued Further Education')
+                    ->columnSpan('full')
+                    ->required(),
                 Checkbox::make('engagement')
                     ->label('Engagement with University')
                     ->columnSpan('full')
@@ -63,7 +68,9 @@ class FeedbackForm
                     ->required(),
                 Textarea::make('suggestions')
                     ->nullable()
-                    ->maxLength(100)
+                    ->maxLength(100),
+                Hidden::make('date_submitted')
+                    ->default(date('y-m-d'))
             ]);
     }
 }

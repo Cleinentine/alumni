@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -50,7 +51,11 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ], $request->remember)) {
-            return redirect()->route('tracerGraduate');
+            if (Auth::user()->roles >= 3) {
+                return redirect()->route('tracerGraduate');
+            } else {
+                return redirect('/admin');
+            }
         } else {
             return redirect()
                 ->route('login')
@@ -255,7 +260,7 @@ class UserController extends Controller
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),
-                'roles' => 4,
+                'roles' => 3,
             ]);
 
             $graduate = Graduate::create([

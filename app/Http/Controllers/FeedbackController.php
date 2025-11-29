@@ -14,7 +14,7 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->roles >= 4) {
+        if (Auth::user()->roles >= 3) {
             $graduate_id = Auth::user()->graduate->id;
         } else {
             $graduate_id = 0;
@@ -69,7 +69,7 @@ class FeedbackController extends Controller
 
     public function store(Request $request)
     {
-        if (Auth::user()->role == 4) {
+        if (Auth::user()->role >= 3) {
             $validator = Validator::make($request->all(), [
                 'relevance' => 'required|numeric|digits:1|min:1|max:5',
                 'skills' => 'required|numeric|digits:1|min:1|max:5',

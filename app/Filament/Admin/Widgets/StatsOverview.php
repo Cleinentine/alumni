@@ -33,7 +33,7 @@ class StatsOverview extends StatsOverviewWidget
         $thisYearFemale = $thisYear['Female'] ?? 0;
 
         $trackedAlumni = Graduate::with(['employment' => function ($query) {
-            $query->where('status', '!=', null);
+            $query->where('status', '!==', NULL);
         }])->get();
 
         return [
