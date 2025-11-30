@@ -33,7 +33,7 @@ class GraduateForm
                     ->required()
                     ->options([
                         'Male' => 'Male',
-                        'Female' => 'Female'
+                        'Female' => 'Female',
                     ]),
                 TextInput::make('year_graduated')
                     ->required()
@@ -53,24 +53,30 @@ class GraduateForm
                     ->searchable()
                     ->reactive() // important for dependent selects
                     ->required()
-                    ->afterStateUpdated(fn($state, callable $set) => $set('state_id', null)), // reset dependent
+                    ->afterStateUpdated(fn ($state, callable $set) => $set('state_id', null)), // reset dependent
 
                 Select::make('state_id')
                     ->label('State')
                     ->options(function (callable $get) {
                         $countryId = $get('country_id');
-                        if (!$countryId) return [];
+                        if (! $countryId) {
+                            return [];
+                        }
+
                         return DB::table('states')->where('country_id', $countryId)->pluck('name', 'id');
                     })
                     ->searchable()
                     ->reactive()
-                    ->afterStateUpdated(fn($state, callable $set) => $set('city_id', null)),
+                    ->afterStateUpdated(fn ($state, callable $set) => $set('city_id', null)),
 
                 Select::make('city_id')
                     ->label('City')
                     ->options(function (callable $get) {
                         $stateId = $get('state_id');
-                        if (!$stateId) return [];
+                        if (! $stateId) {
+                            return [];
+                        }
+
                         return DB::table('cities')->where('state_id', $stateId)->pluck('name', 'id');
                     })
                     ->reactive()
@@ -91,18 +97,16 @@ class GraduateForm
                             ->nullable()
 
                             // Only required on Create
-                            ->required(fn(string $context) => $context === 'create')
+                            ->required(fn (string $context) => $context === 'create')
 
                             // Only update if not empty (Edit only)
                             ->dehydrated(
-                                fn($state, string $context) =>
-                                $context === 'edit' && filled($state)
+                                fn ($state, string $context) => $context === 'edit' && filled($state)
                             )
 
                             // Hash only when updating/saving
                             ->dehydrateStateUsing(
-                                fn($state) =>
-                                filled($state) ? Hash::make($state) : null
+                                fn ($state) => filled($state) ? Hash::make($state) : null
                             ),
                         Hidden::make('role')
                             ->default(3) // for example
@@ -131,7 +135,7 @@ class GraduateForm
                                 'Part-time' => 'Part-time',
                                 'Temporary/Seasonal' => 'Temporary/Seasonal',
                                 'Self-Employed' => 'Self-Employed',
-                                'Unemployed' => 'Unemployed'
+                                'Unemployed' => 'Unemployed',
                             ])
                             ->afterStateUpdated(function ($state, $set) {
                                 if ($state === 'Unemployed') {
@@ -156,7 +160,7 @@ class GraduateForm
                                 'Indeed' => 'Indeed',
                                 'Kalibrr' => 'Kalibrr',
                                 'PhilJobNet' => 'PhilJobNet',
-                                'Others' => 'Others'
+                                'Others' => 'Others',
                             ]),
                         Select::make('country_id')
                             ->label('Country')
@@ -165,24 +169,30 @@ class GraduateForm
                             })
                             ->searchable()
                             ->reactive() // important for dependent selects
-                            ->afterStateUpdated(fn($state, callable $set) => $set('state_id', null)), // reset dependent
+                            ->afterStateUpdated(fn ($state, callable $set) => $set('state_id', null)), // reset dependent
 
                         Select::make('state_id')
                             ->label('State')
                             ->options(function (callable $get) {
                                 $countryId = $get('country_id');
-                                if (!$countryId) return [];
+                                if (! $countryId) {
+                                    return [];
+                                }
+
                                 return DB::table('states')->where('country_id', $countryId)->pluck('name', 'id');
                             })
                             ->searchable()
                             ->reactive()
-                            ->afterStateUpdated(fn($state, callable $set) => $set('city_id', null)),
+                            ->afterStateUpdated(fn ($state, callable $set) => $set('city_id', null)),
 
                         Select::make('city_id')
                             ->label('City')
                             ->options(function (callable $get) {
                                 $stateId = $get('state_id');
-                                if (!$stateId) return [];
+                                if (! $stateId) {
+                                    return [];
+                                }
+
                                 return DB::table('cities')->where('state_id', $stateId)->pluck('name', 'id');
                             })
                             ->reactive()
@@ -190,7 +200,7 @@ class GraduateForm
                         Textarea::make('unemployment')
                             ->rows(4)
                             ->maxLength(100)
-                            ->reactive()
+                            ->reactive(),
                     ]),
             ]);
     }

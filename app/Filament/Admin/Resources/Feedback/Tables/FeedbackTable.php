@@ -34,14 +34,14 @@ class FeedbackTable
                 TextColumn::make('engagement')
                     ->label('Engagement with University')
                     ->sortable()
-                    ->searchable()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make()
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

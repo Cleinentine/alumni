@@ -26,14 +26,14 @@ class ContactsTable
                 TextColumn::make('alternate_contact_number')
                     ->label('Alternate Contact Number')
                     ->sortable()
-                    ->searchable()
+                    ->searchable(),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make()
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

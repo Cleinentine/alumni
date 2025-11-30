@@ -12,9 +12,32 @@ use Illuminate\Validation\Rule;
 
 class EmploymentController extends Controller
 {
+    public $employment_statuses;
+    public $search_methods;
+
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->employment_statuses = [
+            'Full-time',
+            'Part-time',
+            'Temporary/Seasonal',
+            'Self-Employed',
+            'Unemployed'
+        ];
+
+        $this->search_methods = [
+            'JobStreet',
+            'LinkedIn',
+            'Indeed',
+            'Kalibrr',
+            'PhilJobNet',
+            'Others'
+        ];
+    }
+
     public function index()
     {
         if (Auth::user()->roles <= 2) {
@@ -26,22 +49,22 @@ class EmploymentController extends Controller
         $employment = Employment::where('graduate_id', $graduate_id)->first();
         $industries = Industry::get();
 
-        !$employment
+        ! $employment
             ? $hasValues = [1, 1, 1]
             : $hasValues = [0, 0, 0];
 
-        !$employment
+        ! $employment
             ? $values = ['title', 'company', 'time_to_first_job']
             : $values = [$employment->title, $employment->company, $employment->time_to_first_job];
 
-        !$employment
+        ! $employment
             ? $selected = ['', '', '']
             : $selected = [$employment->status, $employment->industry_id, $employment->search_methods];
 
         $displayTexts = [
-            ['Full-time', 'Part-time', 'Temporary/Seasonal', 'Self-Employed', 'Unemployed'],
+            $this->employment_statuses,
             $industries,
-            ['JobStreet', 'LinkedIn', 'Indeed', 'Kalibrr', 'PhilJobNet', 'Others']
+            $this->search_methods,
         ];
 
         $icons = ['fa-user-tie', 'fa-building', 'fa-calendar-days'];
@@ -56,7 +79,7 @@ class EmploymentController extends Controller
         $specials = ['', 'industries', ''];
         $types = ['text', 'text', 'number'];
 
-        if (!$employment) {
+        if (! $employment) {
             $selectedCity = '';
             $selectedCountry = '';
             $selectedState = '';
@@ -126,20 +149,20 @@ class EmploymentController extends Controller
             'specials' => $specials,
             'states' => $states,
             'types' => $types,
-            'values' => $values
+            'values' => $values,
         ]);
     }
 
     public function update(Request $request)
     {
-        if (Auth::user()->roles >= 3) {
+        if ($request->isMethod('POST') && Auth::user()->roles >= 3) {
             $validator = Validator::make($request->all(), [
                 'title' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'company' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'time_to_first_job' => 'nullable|integer|min:1|max:1000',
-                'status' => 'required|in:Full-time,Part-time,Temporary/Seasonal,Self-Employed,Unemployed',
+                'status' => 'required|' . Rule::in($this->employment_statuses),
                 'industry' => 'nullable|exists:industries,id',
-                'search_methods' => 'nullable|in:JobStreet,LinkedIn,Indeed,Kalibrr,PhilJobNet,Others',
+                'search_methods' => 'nullable|' . Rule::in($this->search_methods),
                 'unemployment' => 'nullable|max:100',
                 'country' => 'nullable|exists:countries,id',
                 'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
@@ -184,7 +207,7 @@ class EmploymentController extends Controller
                     ->with('successMessage', 'Data has been updated successfully.');
             }
         } else {
-            return redirect()->back();
+            return back();
         }
     }
 }

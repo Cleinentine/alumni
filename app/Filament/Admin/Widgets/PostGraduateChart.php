@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\DB;
 class PostGraduateChart extends ChartWidget
 {
     protected ?string $heading = 'Post-Graduate';
-    protected int | string | array $columnSpan = 2;
+
+    protected int|string|array $columnSpan = 2;
+
     protected static ?int $sort = 3;
 
     protected function getData(): array
@@ -38,7 +40,7 @@ class PostGraduateChart extends ChartWidget
                     'label' => 'Did not Pursued Further Education',
                     'data' => $post_graduate->pluck('total_no'),
                     'backgroundColor' => 'oklch(71.2% 0.194 13.428)',
-                    'borderColor' => 'oklch(100% 0.194 13.428)'
+                    'borderColor' => 'oklch(100% 0.194 13.428)',
                 ],
             ],
 

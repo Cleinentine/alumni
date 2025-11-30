@@ -16,7 +16,7 @@
                         <x-label for="{{ $names[$i] }}" text="{{ $labels[$i] }}" />
 
                         <x-select
-                            :displayText="$values[$i]"
+                            :displayText="$displayTexts[$i]"
                             :icon="$icons[$i]"
                             :id="$names[$i]"
                             :loop="$loops[$i]"
@@ -57,6 +57,7 @@
         </div>
     </section>
 
+    @include('includes.survey-link')
     @include('includes.facebook')
     @include('includes.footer')
 @endsection

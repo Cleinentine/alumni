@@ -19,7 +19,7 @@ class SurveyForm
                         4 => '4 - Very Good',
                         3 => '3 - Good',
                         2 => '2 - Bad',
-                        1 => '1 - Very Bad'
+                        1 => '1 - Very Bad',
                     ]),
                 Select::make('reason')
                     ->required()
@@ -28,12 +28,12 @@ class SurveyForm
                         'To complete the alumni tracer survey' => 'To complete the alumni tracer survey',
                         'To search for fellow alumni in the directory' => 'To search for fellow alumni in the directory',
                         'To verify alumni information (for employment or academic purposes)' => 'To verify alumni information (for employment or academic purposes)',
-                        'To donate or explore ways to support the institution' => 'To donate or explore ways to support the institution'
+                        'To donate or explore ways to support the institution' => 'To donate or explore ways to support the institution',
                     ]),
                 Textarea::make('comment')
                     ->rows(4)
                     ->maxLength(100)
-                    ->reactive()
+                    ->reactive(),
             ]);
     }
 }

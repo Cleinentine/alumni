@@ -20,6 +20,11 @@ class CollegeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingLibrary;
 
+    public static function getNavigationSort(): ?int
+    {
+        return 4;
+    }
+
     public static function form(Schema $schema): Schema
     {
         return CollegeForm::configure($schema);

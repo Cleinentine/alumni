@@ -54,7 +54,7 @@ class DirectoryController extends Controller
             ['Last Name A-Z', 'Last Name Z-A'],
             $colleges,
             range(1960, date('Y')),
-            ['25', '50', '100', '200', '500']
+            ['25', '50', '100', '200', '500'],
         ];
 
         $icons = ['fa-sort', 'fa-building-columns', 'fa-graduation-cap', 'fa-arrow-down-1-9'];
@@ -68,7 +68,7 @@ class DirectoryController extends Controller
             ['asc', 'desc'],
             $colleges,
             range(1960, date('Y')),
-            [25, 50, 100, 200, 500]
+            [25, 50, 100, 200, 500],
         ];
 
         if (empty($group)) {
@@ -112,7 +112,7 @@ class DirectoryController extends Controller
             'subtext' => $subtext,
             'text' => $text,
             'values' => $values,
-            'year' => $year
+            'year' => $year,
         ]);
     }
 }

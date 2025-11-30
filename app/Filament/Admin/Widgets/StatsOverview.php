@@ -27,28 +27,28 @@ class StatsOverview extends StatsOverviewWidget
             ->selectRaw('count(*) as total')
             ->groupBy('gender')
             ->where('year_graduated', date('Y'))
-            ->pluck('total', 'gender');;
+            ->pluck('total', 'gender');
 
         $thisYearMale = $thisYear['Male'] ?? 0;
         $thisYearFemale = $thisYear['Female'] ?? 0;
 
         $trackedAlumni = Graduate::with(['employment' => function ($query) {
-            $query->where('status', '!==', NULL);
+            $query->where('status', '!==', null);
         }])->get();
 
         return [
             Stat::make('Last Year Graduates', count($lastYear))
-                ->description($lastYearMale . ' male and ' . $lastYearFemale . ' female alumni')
+                ->description($lastYearMale.' male and '.$lastYearFemale.' female alumni')
                 ->descriptionIcon('heroicon-m-academic-cap')
                 ->color('danger'),
             Stat::make('This Year Graduates', count($thisYear))
-                ->description($thisYearMale . ' male and ' . $thisYearFemale . ' female alumni')
+                ->description($thisYearMale.' male and '.$thisYearFemale.' female alumni')
                 ->descriptionIcon('heroicon-m-academic-cap')
                 ->color('success'),
             Stat::make('Tracked Alumni', count($trackedAlumni))
-                ->description(count($trackedAlumni) . ' out of ' . count($totalAlumni) . ' alumni tracked')
+                ->description(count($trackedAlumni).' out of '.count($totalAlumni).' alumni tracked')
                 ->descriptionIcon('heroicon-m-clipboard-document-check')
-                ->color('info')
+                ->color('info'),
         ];
     }
 }

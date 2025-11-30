@@ -9,11 +9,15 @@ use Illuminate\Support\Facades\DB;
 class EmploymentRateChart extends ChartWidget
 {
     protected ?string $heading = 'Employment Rate Chart';
+
     protected static ?int $sort = 2;
-    protected int | string | array $columnSpan = 2;
+
+    protected int|string|array $columnSpan = 2;
 
     public ?int $countryId = null;
+
     public ?int $stateId = null;
+
     public ?int $cityId = null;
 
     protected function getData(): array
@@ -34,9 +38,15 @@ class EmploymentRateChart extends ChartWidget
             ->leftJoin('states', 'employments.state_id', '=', 'states.id')
             ->leftJoin('cities', 'employments.city_id', '=', 'cities.id');
 
-        if ($this->countryId) $query->where('employments.country_id', $this->countryId);
-        if ($this->stateId) $query->where('employments.state_id', $this->stateId);
-        if ($this->cityId) $query->where('employments.city_id', $this->cityId);
+        if ($this->countryId) {
+            $query->where('employments.country_id', $this->countryId);
+        }
+        if ($this->stateId) {
+            $query->where('employments.state_id', $this->stateId);
+        }
+        if ($this->cityId) {
+            $query->where('employments.city_id', $this->cityId);
+        }
 
         $employmentStats = $query
             ->groupBy(
@@ -54,9 +64,9 @@ class EmploymentRateChart extends ChartWidget
 
         $labels = $employmentStats->map(function ($item) {
             return $item->college_name
-                . ' | ' . ($item->country_name ?? '-')
-                . ' | ' . ($item->state_name ?? '-')
-                . ' | ' . ($item->city_name ?? '-');
+                .' | '.($item->country_name ?? '-')
+                .' | '.($item->state_name ?? '-')
+                .' | '.($item->city_name ?? '-');
         })->unique()->toArray();
 
         $genders = $employmentStats->pluck('gender')->unique()->toArray();
@@ -69,7 +79,7 @@ class EmploymentRateChart extends ChartWidget
             $hue = ($i * 360 / $totalDatasets);
             $colors[] = [
                 'background' => "hsla($hue, 70%, 80%, 0.7)", // pastel
-                'border' => "hsla($hue, 70%, 50%, 1)" // darker border
+                'border' => "hsla($hue, 70%, 50%, 1)", // darker border
             ];
         }
 
@@ -83,17 +93,17 @@ class EmploymentRateChart extends ChartWidget
                     $total = $employmentStats->where('gender', $gender)
                         ->where('status', $status)
                         ->filter(
-                            fn($item) => ($item->college_name
-                                . ' | ' . ($item->country_name ?? '-')
-                                . ' | ' . ($item->state_name ?? '-')
-                                . ' | ' . ($item->city_name ?? '-')) === $label
+                            fn ($item) => ($item->college_name
+                                .' | '.($item->country_name ?? '-')
+                                .' | '.($item->state_name ?? '-')
+                                .' | '.($item->city_name ?? '-')) === $label
                         )
                         ->sum('total_graduates');
                     $data[] = $total;
                 }
 
                 $datasets[] = [
-                    'label' => ucfirst($gender) . ' - ' . ucfirst($status),
+                    'label' => ucfirst($gender).' - '.ucfirst($status),
                     'data' => $data,
                     'backgroundColor' => $colors[$colorIndex]['background'],
                     'borderColor' => $colors[$colorIndex]['border'],

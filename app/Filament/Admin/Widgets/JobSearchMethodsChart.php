@@ -8,6 +8,7 @@ use Filament\Widgets\ChartWidget;
 class JobSearchMethodsChart extends ChartWidget
 {
     protected ?string $heading = 'Job Search Methods';
+
     protected static ?int $sort = 8;
 
     protected function getData(): array
@@ -35,7 +36,7 @@ class JobSearchMethodsChart extends ChartWidget
                         $indeed,
                         $kalibrr,
                         $philjobnet,
-                        $others
+                        $others,
                     ],
 
                     'backgroundColor' => [
@@ -44,7 +45,7 @@ class JobSearchMethodsChart extends ChartWidget
                         'oklch(58.5% 0.233 277.117)',
                         'oklch(67.3% 0.182 276.935)',
                         'oklch(78.9% 0.154 211.53)',
-                        'oklch(71.2% 0.194 13.428)'
+                        'oklch(71.2% 0.194 13.428)',
                     ],
 
                     'borderColor' => [
@@ -53,8 +54,8 @@ class JobSearchMethodsChart extends ChartWidget
                         'oklch(100% 0.233 277.117)',
                         'oklch(100% 0.182 276.935)',
                         'oklch(100% 0.154 211.53)',
-                        'oklch(100% 0.194 13.428)'
-                    ]
+                        'oklch(100% 0.194 13.428)',
+                    ],
                 ],
             ],
 
@@ -64,7 +65,7 @@ class JobSearchMethodsChart extends ChartWidget
                 'Indeed',
                 'Kalibrr',
                 'PhilJobNet',
-                'Others'
+                'Others',
             ],
         ];
     }

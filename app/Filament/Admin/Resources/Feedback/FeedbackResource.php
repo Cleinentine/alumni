@@ -20,6 +20,11 @@ class FeedbackResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::ChatBubbleLeft;
 
+    public static function getNavigationSort(): ?int
+    {
+        return 3;
+    }
+
     public static function form(Schema $schema): Schema
     {
         return FeedbackForm::configure($schema);

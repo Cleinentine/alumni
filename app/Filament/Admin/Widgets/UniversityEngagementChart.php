@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class UniversityEngagementChart extends ChartWidget
 {
     protected ?string $heading = 'University Engagement';
+
     protected static ?int $sort = 10;
 
     protected function getData(): array
@@ -37,7 +38,7 @@ class UniversityEngagementChart extends ChartWidget
                     'label' => 'Did not Engage with the University',
                     'data' => $engagement->pluck('total_no'),
                     'backgroundColor' => 'oklch(71.2% 0.194 13.428)',
-                    'borderColor' => 'oklch(100% 0.194 13.428)'
+                    'borderColor' => 'oklch(100% 0.194 13.428)',
                 ],
             ],
 

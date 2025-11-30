@@ -6,9 +6,9 @@ use App\Http\Controllers\EmploymentController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\GraduateController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\SurveyController;
 use App\Http\Controllers\UserController;
-use Filament\Facades\Filament;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +26,7 @@ Route::get('terms', function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('/', [HomeController::class, 'send'])
+Route::post('/', [MailController::class, 'send'])
     ->middleware(ProtectAgainstSpam::class)
     ->name('send');
 

@@ -22,7 +22,7 @@ class FeedbackController extends Controller
 
         $feedback = Feedback::where('graduate_id', $graduate_id)->first();
 
-        if (!$feedback) {
+        if (! $feedback) {
             $ratingDisplayTexts = ['5 - Excellent', '4 - Good', '3 - Neutral', '2 - Poor', '1 - Very Poor'];
             $ratingValues = [5, 4, 3, 2, 1];
             $yesNo = ['Yes', 'No'];
@@ -33,7 +33,7 @@ class FeedbackController extends Controller
                 $ratingDisplayTexts,
                 $yesNo,
                 $yesNo,
-                $yesNo
+                $yesNo,
             ];
 
             $icons = ['fa-book', 'fa-code', 'fa-user-tie', 'fa-user-graduate', 'fa-building-columns', 'fa-shop'];
@@ -49,7 +49,7 @@ class FeedbackController extends Controller
                 $ratingValues,
                 $yesNo,
                 $yesNo,
-                $yesNo
+                $yesNo,
             ];
 
             return view('tracer.feedback', [
@@ -60,7 +60,7 @@ class FeedbackController extends Controller
                 'names' => $names,
                 'selected' => $selected,
                 'specials' => $specials,
-                'values' => $values
+                'values' => $values,
             ]);
         } else {
             return redirect()->route('tracerGraduate');
@@ -69,7 +69,7 @@ class FeedbackController extends Controller
 
     public function store(Request $request)
     {
-        if (Auth::user()->role >= 3) {
+        if ($request->isMethod('POST') && Auth::user()->role >= 3) {
             $validator = Validator::make($request->all(), [
                 'relevance' => 'required|numeric|digits:1|min:1|max:5',
                 'skills' => 'required|numeric|digits:1|min:1|max:5',
@@ -101,7 +101,7 @@ class FeedbackController extends Controller
                     ->with('successMessage', 'Feedback has been sent successfully.');
             }
         } else {
-            return redirect()->back();
+            return back();
         }
     }
 }

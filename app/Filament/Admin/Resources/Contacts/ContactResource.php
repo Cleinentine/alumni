@@ -20,6 +20,11 @@ class ContactResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::Phone;
 
+    public static function getNavigationSort(): ?int
+    {
+        return 8;
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ContactForm::configure($schema);

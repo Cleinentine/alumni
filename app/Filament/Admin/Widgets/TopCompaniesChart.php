@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\DB;
 class TopCompaniesChart extends ChartWidget
 {
     protected ?string $heading = 'Top 5 Companies';
-    protected int | string | array $columnSpan = 2;
+
+    protected int|string|array $columnSpan = 2;
+
     protected static ?int $sort = 4;
 
     protected function getData(): array
@@ -36,6 +38,7 @@ class TopCompaniesChart extends ChartWidget
                 $record = $collegeRecords->firstWhere('company', $label);
                 $data[] = $record ? $record->total : 0;
             }
+
             return [
                 'label' => $collegeName,
                 'data' => $data,

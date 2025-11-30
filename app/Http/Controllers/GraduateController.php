@@ -33,7 +33,7 @@ class GraduateController extends Controller
                 $graduate->middle_name,
                 $graduate->last_name,
                 $graduate->birth_date,
-                $graduate->year_graduated
+                $graduate->year_graduated,
             ];
 
         if (Auth::user()->roles <= 2) {
@@ -96,13 +96,13 @@ class GraduateController extends Controller
             'selectedCity' => $selectedCity,
             'selectedState' => $selectedState,
             'states' => $states,
-            'values' => $values
+            'values' => $values,
         ]);
     }
 
     public function update(Request $request)
     {
-        if (Auth::user()->roles >= 3) {
+        if ($request->isMethod('POST') && Auth::user()->roles >= 3) {
             $checkAlumni = Graduate::where('user_id', '!=', Auth::user()->id)
                 ->where('program_id', $request->program_id)
                 ->where('first_name', $request->first_name)
@@ -128,7 +128,7 @@ class GraduateController extends Controller
                     ->route('tracerGraduate')
                     ->withErrors($validator)
                     ->withInput();
-            } else if ($checkAlumni) {
+            } elseif ($checkAlumni) {
                 return redirect()
                     ->route('tracerGraduate')
                     ->with('duplicateData', 'Alumni with the same data already exists.')
@@ -155,7 +155,7 @@ class GraduateController extends Controller
                     ->with('successMessage', 'Profile has been updated successfully.');
             }
         } else {
-            return redirect()->back();
+            return back();
         }
     }
 }

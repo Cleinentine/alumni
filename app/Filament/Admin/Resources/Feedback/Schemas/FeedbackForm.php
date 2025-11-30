@@ -22,6 +22,7 @@ class FeedbackForm
                         return Graduate::all()->mapWithKeys(function ($user) {
                             // Concatenate first_name and last_name to display the full name
                             $fullName = $user->first_name . ' ' . $user->last_name;
+
                             return [$user->id => $fullName];  // Use user ID as the key
                         });
                     })
@@ -34,7 +35,7 @@ class FeedbackForm
                         4 => '4 - Very Good',
                         3 => '3 - Good',
                         2 => '2 - Bad',
-                        1 => '1 - Very Bad'
+                        1 => '1 - Very Bad',
                     ]),
                 Select::make('skills')
                     ->label('Skills Acquired')
@@ -44,7 +45,7 @@ class FeedbackForm
                         4 => '4 - Very Good',
                         3 => '3 - Good',
                         2 => '2 - Bad',
-                        1 => '1 - Very Bad'
+                        1 => '1 - Very Bad',
                     ]),
                 Select::make('competency')
                     ->required()
@@ -53,24 +54,33 @@ class FeedbackForm
                         4 => '4 - Very Good',
                         3 => '3 - Good',
                         2 => '2 - Bad',
-                        1 => '1 - Very Bad'
+                        1 => '1 - Very Bad',
                     ]),
-                Checkbox::make('post_graduate')
+                Select::make('post_graduate')
                     ->label('Pursued Further Education')
-                    ->columnSpan('full')
-                    ->required(),
-                Checkbox::make('engagement')
+                    ->required()
+                    ->options([
+                        'Yes' => 'Yes',
+                        'No' => 'No'
+                    ]),
+                Select::make('engagement')
                     ->label('Engagement with University')
-                    ->columnSpan('full')
-                    ->required(),
-                Checkbox::make('entrepreneurship')
-                    ->columnSpan('full')
-                    ->required(),
+                    ->required()
+                    ->options([
+                        'Yes' => 'Yes',
+                        'No' => 'No'
+                    ]),
+                Select::make('entrepreneurship')
+                    ->required()
+                    ->options([
+                        'Yes' => 'Yes',
+                        'No' => 'No'
+                    ]),
                 Textarea::make('suggestions')
                     ->nullable()
                     ->maxLength(100),
                 Hidden::make('date_submitted')
-                    ->default(date('y-m-d'))
+                    ->default(date('y-m-d')),
             ]);
     }
 }

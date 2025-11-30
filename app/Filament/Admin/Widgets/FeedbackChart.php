@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class FeedbackChart extends ChartWidget
 {
     protected ?string $heading = 'Feedback Average';
+
     protected static ?int $sort = 7;
 
     protected function getData(): array

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class EntrepreneurshipChart extends ChartWidget
 {
     protected ?string $heading = 'Entrepreneurship';
+
     protected static ?int $sort = 6;
 
     protected function getData(): array
@@ -37,7 +38,7 @@ class EntrepreneurshipChart extends ChartWidget
                     'label' => 'Did not Do Entrepreneurship',
                     'data' => $entrepreneurship->pluck('total_no'),
                     'backgroundColor' => 'oklch(71.2% 0.194 13.428)',
-                    'borderColor' => 'oklch(100% 0.194 13.428)'
+                    'borderColor' => 'oklch(100% 0.194 13.428)',
                 ],
             ],
 

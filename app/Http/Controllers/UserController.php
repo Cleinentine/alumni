@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employment;
+use App\Models\Country;
 use App\Models\Graduate;
 use App\Models\Program;
 use App\Models\User;
@@ -10,7 +10,6 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
@@ -37,30 +36,34 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        if (!Auth::check() && $request->isMethod('POST')) {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()
-                ->route('login')
-                ->withErrors($validator)
-                ->withInput();
-        } elseif (Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password,
-        ], $request->remember)) {
-            if (Auth::user()->roles >= 3) {
-                return redirect()->route('tracerGraduate');
+            if ($validator->fails()) {
+                return redirect()
+                    ->route('login')
+                    ->withErrors($validator)
+                    ->withInput();
+            } elseif (Auth::attempt([
+                'email' => $request->email,
+                'password' => $request->password,
+            ], $request->remember)) {
+                if (Auth::user()->roles >= 3) {
+                    return redirect()->route('tracerGraduate');
+                } else {
+                    return redirect('/admin');
+                }
             } else {
-                return redirect('/admin');
+                return redirect()
+                    ->route('login')
+                    ->withInput()
+                    ->with('errorMessage', 'Incorrect email or password.');
             }
         } else {
-            return redirect()
-                ->route('login')
-                ->withInput()
-                ->with('errorMessage', 'Incorrect email or password.');
+            return back();
         }
     }
 
@@ -81,13 +84,16 @@ class UserController extends Controller
             'labels' => $labels,
             'placeholders' => $placeholders,
             'types' => $types,
-            'values' => $values
+            'values' => $values,
         ]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('login');
     }
@@ -98,28 +104,32 @@ class UserController extends Controller
 
     public function changePassword(Request $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
-        ]);
+        if (!Auth::check() && $request->isMethod('POST')) {
+            $request->validate([
+                'token' => 'required',
+                'email' => 'required|email:rfc,dns',
+                'password' => 'required|min:8|confirmed',
+            ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, string $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password),
-                ])->setRememberToken(Str::random(60));
+            $status = Password::reset(
+                $request->only('email', 'password', 'password_confirmation', 'token'),
+                function (User $user, string $password) {
+                    $user->forceFill([
+                        'password' => Hash::make($password),
+                    ])->setRememberToken(Str::random(60));
 
-                $user->save();
+                    $user->save();
 
-                event(new PasswordReset($user));
-            }
-        );
+                    event(new PasswordReset($user));
+                }
+            );
 
-        return $status === Password::PasswordReset
-            ? redirect()->route('login')->with('successMessage', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+            return $status === Password::PasswordReset
+                ? redirect()->route('login')->with('successMessage', __($status))
+                : back()->withErrors(['email' => [__($status)]]);
+        } else {
+            return back();
+        }
     }
 
     public function changePasswordFrom(string $token)
@@ -142,7 +152,7 @@ class UserController extends Controller
             'placeholders' => $placeholders,
             'token' => $token,
             'types' => $types,
-            'values' => $values
+            'values' => $values,
         ]);
     }
 
@@ -168,15 +178,13 @@ class UserController extends Controller
 
     public function create()
     {
-
         $cities = '';
         $hasValues = [1, 1, 1, 1, 1];
         $selected = ['', ''];
         $states = '';
         $values = ['first_name', 'middle_name', 'last_name', 'birth_date', 'year_graduated'];
 
-        $countries = DB::table('countries')
-            ->orderBy('name', 'ASC')
+        $countries = Country::orderBy('name', 'ASC')
             ->get(['id', 'name']);
 
         $programs = Program::get();
@@ -194,109 +202,102 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email,' . Auth::user()->id,
-            'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
-            'password' => 'nullable|confirmed',
-            'password_confirmation' => 'nullable',
-        ]);
+        if (Auth::check() && $request->isMethod('POST')) {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email:rfc,dns|unique:users,email,' . Auth::user()->id,
+                'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
+                'password' => 'nullable|confirmed|regex:/^(?=.*[0-9])(?=.*[!@#$%^&*()])(?=.*[a-zA-Z0-9]).*$/',
+                'password_confirmation' => 'nullable',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()
-                ->route('tracerAccount')
-                ->withErrors($validator)
-                ->withInput();
+            if ($validator->fails()) {
+                return redirect()
+                    ->route('tracerAccount')
+                    ->withErrors($validator)
+                    ->withInput();
+            } else {
+                Auth::user()->email = $request->email;
+                Auth::user()->phone = $request->phone;
+
+                if (Auth::user()->isDirty()) {
+                    User::where('id', Auth::user()->id)
+                        ->update([
+                            'email' => $request->email,
+                            'phone' => $request->phone,
+                        ]);
+                }
+
+                if (! empty($request->password)) {
+                    User::where('id', Auth::user()->id)
+                        ->update(['password' => Hash::make($request->password)]);
+                }
+
+                return redirect()
+                    ->route('tracerAccount')
+                    ->with('successMessage', 'Account has been updated successfully.');
+            }
         } else {
-            Auth::user()->email = $request->email;
-            Auth::user()->phone = $request->phone;
-
-            if (Auth::user()->isDirty()) {
-                User::where('id', Auth::user()->id)
-                    ->update([
-                        'email' => $request->email,
-                        'phone' => $request->phone,
-                    ]);
-            }
-
-            if (! empty($request->password)) {
-                User::where('id', Auth::user()->id)
-                    ->update(['password' => Hash::make($request->password)]);
-            }
-
-            return redirect()
-                ->route('tracerAccount')
-                ->with('successMessage', 'Account has been updated successfully.');
+            return back();
         }
     }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
-            'middle_name' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
-            'last_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
-            'birth_date' => 'required|date|before:-18 years',
-            'country' => 'required|exists:countries,id',
-            'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
-            'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
-            'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
-            'gender' => 'required|in:Male,Female',
-            'programs' => 'required|exists:programs,id',
+        if (!Auth::check() && $request->isMethod('POST')) {
+            $validator = Validator::make($request->all(), [
+                'first_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
+                'middle_name' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
+                'last_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
+                'birth_date' => 'required|date|before:-18 years',
+                'country' => 'required|exists:countries,id',
+                'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
+                'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
+                'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
+                'gender' => 'required|in:Male,Female',
+                'programs' => 'required|exists:programs,id',
 
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
-            'password' => 'required|confirmed',
-            'password_confirmation' => 'required',
-            'terms' => 'required|accepted',
-        ]);
+                'email' => 'required|email:rfc,dns|unique:users,email',
+                'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
+                'password' => 'required|confirmed|regex:/^(?=.*[0-9])(?=.*[!@#$%^&*()])(?=.*[a-zA-Z0-9]).*$/',
+                'password_confirmation' => 'required',
+                'terms' => 'required|accepted',
+            ]);
 
-        if ($validator->fails()) {
-            return redirect()
-                ->route('register')
-                ->withErrors($validator)
-                ->withInput();
+            if ($validator->fails()) {
+                return redirect()
+                    ->route('register')
+                    ->withErrors($validator)
+                    ->withInput();
+            } else {
+                $user = User::create([
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'password' => Hash::make($request->password),
+                    'roles' => 3,
+                ]);
+
+                Graduate::create([
+                    'user_id' => $user->id,
+                    'program_id' => $request->programs,
+                    'country_id' => $request->country,
+                    'state_id' => $request->state,
+                    'city_id' => $request->city,
+                    'first_name' => $request->first_name,
+                    'middle_name' => $request->middle_name,
+                    'last_name' => $request->last_name,
+                    'birth_date' => $request->birth_date,
+                    'gender' => $request->gender,
+                    'year_graduated' => $request->year_graduated,
+                ]);
+
+                event(new Registered($user));
+
+                Auth::login($user);
+
+                return redirect()->route('verification.notice');
+            }
         } else {
-            $user = User::create([
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'password' => Hash::make($request->password),
-                'roles' => 3,
-            ]);
-
-            $graduate = Graduate::create([
-                'user_id' => $user->id,
-                'program_id' => $request->programs,
-                'country_id' => $request->country,
-                'state_id' => $request->state,
-                'city_id' => $request->city,
-                'first_name' => $request->first_name,
-                'middle_name' => $request->middle_name,
-                'last_name' => $request->last_name,
-                'birth_date' => $request->birth_date,
-                'gender' => $request->gender,
-                'year_graduated' => $request->year_graduated,
-            ]);
-
-            Employment::create([
-                'graduate_id' => $graduate->id,
-                'industry_id' => null,
-                'country_id' => null,
-                'state_id' => null,
-                'city_id' => null,
-                'status' => null,
-                'title' => null,
-                'company' => null,
-                'time_to_first_job' => null,
-                'search_methods' => null,
-                'progression' => null,
-                'unemployment' => null,
-            ]);
-
-            event(new Registered($user));
-
-            Auth::login($user);
-
-            return redirect()->route('verification.notice');
+            return back();
         }
     }
 }

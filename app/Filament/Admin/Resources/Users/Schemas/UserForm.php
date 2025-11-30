@@ -25,18 +25,16 @@ class UserForm
                     ->nullable()
 
                     // Only required on Create
-                    ->required(fn(string $context) => $context === 'create')
+                    ->required(fn (string $context) => $context === 'create')
 
                     // Only update if not empty (Edit only)
                     ->dehydrated(
-                        fn($state, string $context) =>
-                        $context === 'edit' && filled($state)
+                        fn ($state, string $context) => $context === 'edit' && filled($state)
                     )
 
                     // Hash only when updating/saving
                     ->dehydrateStateUsing(
-                        fn($state) =>
-                        filled($state) ? Hash::make($state) : null
+                        fn ($state) => filled($state) ? Hash::make($state) : null
                     ),
                 Hidden::make('role')
                     ->default(2) // for example

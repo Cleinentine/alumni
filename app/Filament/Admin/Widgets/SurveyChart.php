@@ -9,6 +9,7 @@ use Filament\Widgets\ChartWidget;
 class SurveyChart extends ChartWidget
 {
     protected ?string $heading = 'Website Surveys';
+
     protected static ?int $sort = 9;
 
     protected function getData(): array
@@ -24,11 +25,11 @@ class SurveyChart extends ChartWidget
             ->get();
 
         return [
-            'labels' => $data->pluck('year')->map(fn($year) => (string)$year)->toArray(),
+            'labels' => $data->pluck('year')->map(fn ($year) => (string) $year)->toArray(),
             'datasets' => [
                 [
                     'label' => 'Average Overall',
-                    'data' => $data->pluck('avg_overall')->map(fn($val) => round($val, 2))->toArray(),
+                    'data' => $data->pluck('avg_overall')->map(fn ($val) => round($val, 2))->toArray(),
                     'backgroundColor' => 'rgba(54, 162, 235, 0.2)',
                     'borderColor' => 'rgba(54, 162, 235, 1)',
                     'fill' => true,

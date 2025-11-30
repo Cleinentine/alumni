@@ -20,6 +20,11 @@ class ProgramResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::BookOpen;
 
+    public static function getNavigationSort(): ?int
+    {
+        return 6;
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ProgramForm::configure($schema);

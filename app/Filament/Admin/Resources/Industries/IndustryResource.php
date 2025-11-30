@@ -20,6 +20,11 @@ class IndustryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::BuildingStorefront;
 
+    public static function getNavigationSort(): ?int
+    {
+        return 5;
+    }
+
     public static function form(Schema $schema): Schema
     {
         return IndustryForm::configure($schema);

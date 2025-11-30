@@ -22,14 +22,14 @@ class SurveysTable
                     ->label('Date Surveyed')
                     ->formatStateUsing(function ($state) {
                         return Carbon::parse($state)->format('F j, Y');
-                    })
+                    }),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make()
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

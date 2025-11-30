@@ -24,7 +24,7 @@ class HomeController extends Controller
             'Directory',
             'Registration',
             'Tracer',
-            'Other'
+            'Other',
         ];
         $types = ['text', 'email'];
         $values = ['', ''];
@@ -32,7 +32,7 @@ class HomeController extends Controller
         $description = [
             'Reconnect with fellow CSU alumni through our comprehensive directory. Search by name, graduation year, or program to find and connect with old friends and colleagues.',
             'Share your professional journey and stay updated with the latest career opportunities. Our Tracer System helps you track your progress and provides valuable insights for personal growth.',
-            'Leverage data-driven insights to make informed decisions. Our Decision-Support System offers analytics and reports that help alumni and the university community understand trends and opportunities for development.'
+            'Leverage data-driven insights to make informed decisions. Our Decision-Support System offers analytics and reports that help alumni and the university community understand trends and opportunities for development.',
         ];
 
         $contact = Contact::first();
@@ -56,28 +56,7 @@ class HomeController extends Controller
             'placeholders' => $placeholders,
             'subjects' => $subjects,
             'types' => $types,
-            'values' => $values
+            'values' => $values,
         ]);
-    }
-
-    public function send(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'subject' => 'required|in:Bug Report,Directory,Registration,Tracer,Other',
-            'message' => 'required|max:250',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->route('home')
-                ->withErrors($validator)
-                ->withInput();
-        } else {
-            Mail::to('cleinentine@gmail.com')->send(new SendMessage($request));
-
-            return redirect()->route('home');
-        }
     }
 }

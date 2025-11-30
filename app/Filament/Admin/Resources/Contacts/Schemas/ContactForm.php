@@ -21,7 +21,7 @@ class ContactForm
                 TextInput::make('alternate_contact_number')
                     ->tel()
                     ->rules(['phone:INTERNATIONAL,PH'])
-                    ->required()
+                    ->required(),
             ]);
     }
 }

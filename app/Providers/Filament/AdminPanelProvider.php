@@ -35,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
     {
         Filament::serving(function () {
             // Only allow admin users
-            if (!Auth::user() || Auth::user()->roles >= 4) {
+            if (! Auth::user() || Auth::user()->roles >= 4) {
                 abort(403, 'Access denied');
             }
         });
