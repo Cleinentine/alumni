@@ -2,11 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\SendMessage;
 use App\Models\Contact;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {

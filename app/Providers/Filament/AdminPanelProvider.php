@@ -2,15 +2,17 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Admin\Widgets\EmploymentRateChart;
 use App\Filament\Admin\Widgets\EntrepreneurshipChart;
 use App\Filament\Admin\Widgets\FeedbackChart;
 use App\Filament\Admin\Widgets\JobSearchMethodsChart;
 use App\Filament\Admin\Widgets\PostGraduateChart;
 use App\Filament\Admin\Widgets\StatsOverview;
 use App\Filament\Admin\Widgets\SurveyChart;
+use App\Filament\Admin\Widgets\TopCities;
 use App\Filament\Admin\Widgets\TopCompaniesChart;
+use App\Filament\Admin\Widgets\TopCountries;
 use App\Filament\Admin\Widgets\TopIndustriesChart;
+use App\Filament\Admin\Widgets\TopStates;
 use App\Filament\Admin\Widgets\UniversityEngagementChart;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
@@ -58,7 +60,10 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 StatsOverview::class,
 
-                EmploymentRateChart::class,
+                TopCountries::class,
+                TopStates::class,
+                TopCities::class,
+
                 PostGraduateChart::class,
                 TopCompaniesChart::class,
                 TopIndustriesChart::class,

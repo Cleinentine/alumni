@@ -24,6 +24,16 @@ class Employment extends Model
         'unemployment',
     ];
 
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
     public function graduate()
     {
         return $this->belongsTo(Graduate::class);
@@ -32,5 +42,10 @@ class Employment extends Model
     public function industry()
     {
         return $this->hasOne(Industry::class, 'id', 'industry_id');
+    }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
     }
 }

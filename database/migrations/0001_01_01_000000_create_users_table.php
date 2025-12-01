@@ -42,9 +42,8 @@ return new class extends Migration
         /*
             Roles
                 1 = Super Admin
-                2 = Organization Admin
-                3 = Site Admin
-                4 = User
+                2 = Site Admin
+                3 = Users
         */
 
         $data = [
@@ -60,20 +59,10 @@ return new class extends Migration
 
             [
                 'id' => 2,
-                'email' => 'csuan.orgadmin@gmail.com',
-                'email_verified_at' => NOW(),
-                'password' => Hash::make('orgadmin'),
-                'roles' => 2,
-                'created_at' => NOW(),
-                'updated_at' => NOW(),
-            ],
-
-            [
-                'id' => 3,
                 'email' => 'csuan.siteadmin@gmail.com',
                 'email_verified_at' => NOW(),
                 'password' => Hash::make('siteadmin'),
-                'roles' => 3,
+                'roles' => 2,
                 'created_at' => NOW(),
                 'updated_at' => NOW(),
             ],

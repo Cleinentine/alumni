@@ -25,6 +25,11 @@ class City extends Model
         return $this->belongsTo(Country::class);
     }
 
+    public function employment()
+    {
+        return $this->hasOne(Employment::class);
+    }
+
     public function state()
     {
         return $this->belongsTo(State::class);

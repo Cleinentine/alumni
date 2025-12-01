@@ -28,4 +28,9 @@ class State extends Model
     {
         return $this->belongsTo(State::class);
     }
+
+    public function employment()
+    {
+        return $this->hasOne(Employment::class);
+    }
 }

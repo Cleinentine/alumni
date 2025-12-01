@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Widgets;
 
+use App\Models\Employment;
 use App\Models\Graduate;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -13,6 +14,7 @@ class StatsOverview extends StatsOverviewWidget
     protected function getStats(): array
     {
         $totalAlumni = Graduate::get();
+        $trackedAlumni = Employment::where('status', '!=', null)->get();
 
         $lastYear = Graduate::select('gender')
             ->selectRaw('count(*) as total')
@@ -31,10 +33,6 @@ class StatsOverview extends StatsOverviewWidget
 
         $thisYearMale = $thisYear['Male'] ?? 0;
         $thisYearFemale = $thisYear['Female'] ?? 0;
-
-        $trackedAlumni = Graduate::with(['employment' => function ($query) {
-            $query->where('status', '!==', null);
-        }])->get();
 
         return [
             Stat::make('Last Year Graduates', count($lastYear))

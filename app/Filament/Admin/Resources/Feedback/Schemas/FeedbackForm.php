@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Resources\Feedback\Schemas;
 
 use App\Models\Graduate;
-use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -21,7 +20,7 @@ class FeedbackForm
                     ->options(function () {
                         return Graduate::all()->mapWithKeys(function ($user) {
                             // Concatenate first_name and last_name to display the full name
-                            $fullName = $user->first_name . ' ' . $user->last_name;
+                            $fullName = $user->first_name.' '.$user->last_name;
 
                             return [$user->id => $fullName];  // Use user ID as the key
                         });
@@ -61,20 +60,20 @@ class FeedbackForm
                     ->required()
                     ->options([
                         'Yes' => 'Yes',
-                        'No' => 'No'
+                        'No' => 'No',
                     ]),
                 Select::make('engagement')
                     ->label('Engagement with University')
                     ->required()
                     ->options([
                         'Yes' => 'Yes',
-                        'No' => 'No'
+                        'No' => 'No',
                     ]),
                 Select::make('entrepreneurship')
                     ->required()
                     ->options([
                         'Yes' => 'Yes',
-                        'No' => 'No'
+                        'No' => 'No',
                     ]),
                 Textarea::make('suggestions')
                     ->nullable()

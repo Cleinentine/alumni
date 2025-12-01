@@ -21,7 +21,7 @@ class SurveyController extends Controller
             'To complete the alumni tracer survey',
             'To search for fellow alumni in the directory',
             'To verify alumni information (for employment or academic purposes)',
-            'To donate or explore ways to support the institution'
+            'To donate or explore ways to support the institution',
         ];
     }
 
@@ -33,9 +33,9 @@ class SurveyController extends Controller
                 '4 - Very Good',
                 '3 - Good',
                 '2 - Bad',
-                '1 - Very Bad'
+                '1 - Very Bad',
             ],
-            $this->reasons
+            $this->reasons,
         ];
 
         $icons = ['fa-star', 'fa-eye'];
@@ -68,7 +68,7 @@ class SurveyController extends Controller
         if ($request->isMethod('POST')) {
             $validator = Validator::make($request->all(), [
                 'overall' => 'required|numeric|min:1|max:5',
-                'reason' => 'required|' . Rule::in($this->reasons),
+                'reason' => 'required|'.Rule::in($this->reasons),
                 'comment' => 'nullable|max:100',
             ]);
 

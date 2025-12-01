@@ -13,6 +13,7 @@ use Illuminate\Validation\Rule;
 class EmploymentController extends Controller
 {
     public $employment_statuses;
+
     public $search_methods;
 
     /**
@@ -25,7 +26,7 @@ class EmploymentController extends Controller
             'Part-time',
             'Temporary/Seasonal',
             'Self-Employed',
-            'Unemployed'
+            'Unemployed',
         ];
 
         $this->search_methods = [
@@ -34,7 +35,7 @@ class EmploymentController extends Controller
             'Indeed',
             'Kalibrr',
             'PhilJobNet',
-            'Others'
+            'Others',
         ];
     }
 
@@ -160,13 +161,13 @@ class EmploymentController extends Controller
                 'title' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'company' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'time_to_first_job' => 'nullable|integer|min:1|max:1000',
-                'status' => 'required|' . Rule::in($this->employment_statuses),
+                'status' => 'required|'.Rule::in($this->employment_statuses),
                 'industry' => 'nullable|exists:industries,id',
-                'search_methods' => 'nullable|' . Rule::in($this->search_methods),
+                'search_methods' => 'nullable|'.Rule::in($this->search_methods),
                 'unemployment' => 'nullable|max:100',
                 'country' => 'nullable|exists:countries,id',
-                'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
-                'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
+                'state' => 'nullable|'.Rule::exists('states', 'id')->where('country_id', $request->country),
+                'city' => 'nullable|'.Rule::exists('cities', 'id')->where('state_id', $request->state),
             ]);
 
             if ($validator->fails()) {

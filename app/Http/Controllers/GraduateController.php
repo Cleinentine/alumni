@@ -22,11 +22,11 @@ class GraduateController extends Controller
 
         $hasValues = [0, 0, 0, 0, 0];
 
-        !$graduate
+        ! $graduate
             ? $selected = ['', '']
             : $selected = [$graduate->gender, $graduate->program_id];
 
-        !$graduate
+        ! $graduate
             ? $values = ['', '', '', '', '']
             : $values = [
                 $graduate->first_name,
@@ -116,9 +116,9 @@ class GraduateController extends Controller
                 'last_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'birth_date' => 'required|date|before:-18 years',
                 'country' => 'required|exists:countries,id',
-                'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
-                'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
-                'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
+                'state' => 'nullable|'.Rule::exists('states', 'id')->where('country_id', $request->country),
+                'city' => 'nullable|'.Rule::exists('cities', 'id')->where('state_id', $request->state),
+                'year_graduated' => 'required|integer|digits:4|min:1960|max:'.date('Y'),
                 'gender' => 'required|in:Male,Female',
                 'programs' => 'required|exists:programs,id',
             ]);

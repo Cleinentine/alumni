@@ -17,6 +17,12 @@
                 padding: 0;
             }
 
+            body, html {
+                font-family: 'Nunito', sans-serif;
+                font-size: 16px;
+                scroll-behavior: smooth;
+            }
+
             div {
                 text-align: center;
             }
@@ -47,7 +53,6 @@
             }
 
             h4 {
-                font-family: 'Nunito', sans-serif;
                 font-size: 18px;
                 letter-spacing: 1px;
                 text-align: center;
@@ -58,16 +63,14 @@
             }
 
             p {
-                font-family: 'Nunito', sans-serif;
                 letter-spacing: 1px;
                 line-height: 30px;
                 margin: auto;
-                text-align: center;
                 width: 50%;
             }
 
             section {
-                background-color: lightgray;
+                background-color: #F6F6F8;
                 padding: 50px 25px;
             }
         </style>
