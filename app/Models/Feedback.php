@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Feedback extends Model
 {
     public $timestamps = false;
+
     public $incrementing = false;
 
     protected $primaryKey = 'graduate_id';
+
     protected $keyType = 'int';
 
     protected $fillable = [

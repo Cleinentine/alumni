@@ -45,7 +45,7 @@ class TopCountries extends ChartWidget
                     'tooltip' => [
                         'callbacks' => [
                             'afterLabel' => function ($context) use ($topCompanies) {
-                                return 'Top Companies: ' . $topCompanies[$context['dataIndex']];
+                                return 'Top Companies: '.$topCompanies[$context['dataIndex']];
                             },
                         ],
                     ],

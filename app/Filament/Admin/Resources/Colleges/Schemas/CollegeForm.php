@@ -15,7 +15,7 @@ class CollegeForm
                 TextInput::make('name')
                     ->required()
                     ->regex('/^[a-zA-Z0-9_ ]+$/')
-                    ->unique(College::class, 'name')
+                    ->unique(College::class, 'name'),
             ]);
     }
 }

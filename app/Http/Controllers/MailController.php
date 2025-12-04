@@ -29,7 +29,7 @@ class MailController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'email' => 'required|email:rfc,dns',
-                'subject' => 'required|' . Rule::in($this->subjects),
+                'subject' => 'required|'.Rule::in($this->subjects),
                 'message' => 'required|max:100',
             ]);
 

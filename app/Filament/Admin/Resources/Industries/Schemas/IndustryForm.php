@@ -15,7 +15,7 @@ class IndustryForm
                 TextInput::make('name')
                     ->required()
                     ->regex('/^[a-zA-Z0-9_ ]+$/')
-                    ->unique(Industry::class, 'name')
+                    ->unique(Industry::class, 'name'),
             ]);
     }
 }

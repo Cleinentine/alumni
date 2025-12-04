@@ -38,7 +38,7 @@ class SurveyForm
                 Hidden::make('date_surveyed')
                     ->default(date('Y-m-d'))
                     ->required()
-                    ->dehydrated(fn($state, $context) => $context === 'create')
+                    ->dehydrated(fn ($state, $context) => $context === 'create'),
             ]);
     }
 }
