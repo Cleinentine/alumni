@@ -34,7 +34,7 @@ class Employment extends Model
 
     public function graduate()
     {
-        return $this->belongsTo(Graduate::class);
+        return $this->belongsTo(Graduate::class, 'graduate_id', 'id');
     }
 
     public function industry()

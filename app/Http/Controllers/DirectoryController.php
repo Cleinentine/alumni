@@ -14,7 +14,7 @@ class DirectoryController extends Controller
         $validator = Validator::make($request->all(), [
             'sort' => 'required|in:asc,desc',
             'group' => 'nullable|exists:colleges,id',
-            'year' => 'required|integer|min:1960|max:'.date('Y'),
+            'year' => 'required|integer|min:1960|max:' . date('Y'),
             'limit' => 'required|in:25,50,100,200,500',
             'keywords' => 'nullable|string|max:255',
         ]);
@@ -33,7 +33,7 @@ class DirectoryController extends Controller
         if (empty($year) || $validator->fails()) {
             $year = date('Y');
         } else {
-            $yearMessage = ' on batch '.$year;
+            $yearMessage = ' on batch ' . $year;
         }
 
         if (empty($limit) || $validator->fails()) {
@@ -41,10 +41,10 @@ class DirectoryController extends Controller
         }
 
         if (! empty($keywords)) {
-            $keywordMessage = ' for '.'"'.$keywords.'"';
+            $keywordMessage = ' for ' . '"' . $keywords . '"';
         }
 
-        $text = 'No alumni records found'.$keywordMessage.$yearMessage;
+        $text = 'No alumni records found' . $keywordMessage . $yearMessage;
 
         $alumni = Graduate::search($keywords)->get();
         $colleges = College::get();
@@ -73,8 +73,6 @@ class DirectoryController extends Controller
 
         if (empty($group)) {
             $graduates = Graduate::query()
-                ->join('programs', 'graduates.program_id', '=', 'programs.id')
-                ->join('colleges', 'programs.college_id', '=', 'colleges.id')
                 ->whereIn('graduates.last_name', $alumni->pluck('last_name'))
                 ->where('graduates.year_graduated', $year)
                 ->orderBy('graduates.last_name', $sort)
@@ -83,6 +81,7 @@ class DirectoryController extends Controller
             $graduates = Graduate::query()
                 ->join('programs', 'graduates.program_id', '=', 'programs.id')
                 ->join('colleges', 'programs.college_id', '=', 'colleges.id')
+                ->join('employments', 'graduates.id', '=', 'employments.graduate_id')
                 ->whereIn('graduates.last_name', $alumni->pluck('last_name'))
                 ->where('programs.college_id', $group)
                 ->where('graduates.year_graduated', $year)
@@ -91,7 +90,7 @@ class DirectoryController extends Controller
         }
 
         if ($selectedCollege) {
-            $subtext = 'College of '.$selectedCollege->name;
+            $subtext = 'College of ' . $selectedCollege->name;
         }
 
         return view('directory', [

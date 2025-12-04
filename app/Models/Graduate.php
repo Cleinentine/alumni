@@ -26,7 +26,7 @@ class Graduate extends Model
 
     public function employment()
     {
-        return $this->hasOne(Employment::class);
+        return $this->hasOne(Employment::class, 'graduate_id', 'id');
     }
 
     public function feedback()
