@@ -13,7 +13,7 @@ class HomeController extends Controller
         $icon = ['fa-address-book', 'fa-chart-line', 'fa-database'];
         $icons = ['fa-tag', 'fa-at'];
         $ids = ['name', 'email'];
-        $labels = ['Name (Required', 'Email (Required)'];
+        $labels = ['Name (Required)', 'Email (Required)'];
         $placeholders = ['e.g. John Smith', 'e.g. csuanako@email.com.ph'];
         $subjects = [
             'Bug Report',

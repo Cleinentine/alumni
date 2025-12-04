@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Widgets;
 
 use App\Models\Employment;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\DB;
 
 class TopStates extends ChartWidget
 {
@@ -15,19 +16,18 @@ class TopStates extends ChartWidget
 
     protected function getData(): array
     {
-        $topStates = Employment::selectRaw('state_id, COUNT(*) as employed_count')
-            ->groupBy('state_id')
+        $topStates = Employment::join('states', 'states.id', '=', 'employments.state_id')
+            ->select('employments.state_id', 'states.name as state_name', DB::raw('COUNT(*) as employed_count'))
+            ->groupBy('employments.state_id', 'states.name')
             ->orderByDesc('employed_count')
             ->limit(5)
-            ->with('state')
             ->get();
 
-        $labels = $topStates
-            ->filter(fn ($c) => $c->state !== null)
-            ->map(fn ($c) => $c->state->name)
-            ->toArray();
+        // Labels and data
+        $labels = $topStates->pluck('state_name')->toArray();
         $data = $topStates->pluck('employed_count')->toArray();
 
+        // Top companies per state
         $topCompanies = $topStates->map(function ($s) {
             return Employment::where('state_id', $s->state_id)
                 ->groupBy('company')
@@ -37,6 +37,7 @@ class TopStates extends ChartWidget
                 ->join(', ');
         })->toArray();
 
+        // Return chart data
         return [
             'labels' => $labels,
             'datasets' => [
@@ -47,7 +48,7 @@ class TopStates extends ChartWidget
                     'tooltip' => [
                         'callbacks' => [
                             'afterLabel' => function ($context) use ($topCompanies) {
-                                return 'Top Companies: '.$topCompanies[$context['dataIndex']];
+                                return 'Top Companies: ' . $topCompanies[$context['dataIndex']];
                             },
                         ],
                     ],

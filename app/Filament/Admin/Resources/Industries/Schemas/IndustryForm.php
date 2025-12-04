@@ -16,7 +16,6 @@ class IndustryForm
                     ->required()
                     ->regex('/^[a-zA-Z0-9_ ]+$/')
                     ->unique(Industry::class, 'name')
-                    ->rule('exists:colleges,name'),
             ]);
     }
 }

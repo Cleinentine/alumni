@@ -46,13 +46,11 @@
 
                 <x-button icon="fa-right-to-bracket" text="Sign In" />
 
-                <div class="mt-10 text-center">
-                    @if (session('errorMessage'))
+                @if (session('errorMessage'))
+                    <div class="mt-10 text-center">
                         <x-error-message :message="session('errorMessage')" />
-                    @elseif (session('successMessage'))
-                        <x-success-message :message="session('successMessage')" />
-                    @endif
-                </div>
+                    </div>
+                @endif
             </form>
 
             <x-horizontal-rule />

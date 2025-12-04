@@ -68,7 +68,7 @@ class SurveyController extends Controller
         if ($request->isMethod('POST')) {
             $validator = Validator::make($request->all(), [
                 'overall' => 'required|numeric|min:1|max:5',
-                'reason' => 'required|'.Rule::in($this->reasons),
+                'reason' => 'required|' . Rule::in($this->reasons),
                 'comment' => 'nullable|max:100',
             ]);
 
@@ -82,6 +82,7 @@ class SurveyController extends Controller
                     'overall' => $request->overall,
                     'reason' => $request->reason,
                     'comment' => $request->comment,
+                    'date_surveyed' => date('y-m-d')
                 ]);
 
                 return redirect()

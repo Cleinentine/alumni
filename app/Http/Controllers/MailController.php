@@ -16,10 +16,10 @@ class MailController extends Controller
     {
         $this->subjects = [
             'Bug Report',
-            'Directory System',
-            'Registration Form',
-            'Tracer System',
-            'Others',
+            'Directory',
+            'Registration',
+            'Tracer',
+            'Other',
         ];
     }
 
@@ -29,7 +29,7 @@ class MailController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
                 'email' => 'required|email:rfc,dns',
-                'subject' => 'required|'.Rule::in($this->subjects),
+                'subject' => 'required|' . Rule::in($this->subjects),
                 'message' => 'required|max:100',
             ]);
 
@@ -41,7 +41,9 @@ class MailController extends Controller
             } else {
                 Mail::to($request->email)->send(new SendMessage($request));
 
-                return redirect()->route('home');
+                return redirect()
+                    ->route('home')
+                    ->with('successMessage', 'Message has been sent.');
             }
         } else {
             return back();

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\Surveys\Schemas;
 
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
@@ -34,6 +35,10 @@ class SurveyForm
                     ->rows(4)
                     ->maxLength(100)
                     ->reactive(),
+                Hidden::make('date_surveyed')
+                    ->default(date('Y-m-d'))
+                    ->required()
+                    ->dehydrated(fn($state, $context) => $context === 'create')
             ]);
     }
 }

@@ -14,6 +14,11 @@ if (status.value !== "Unemployed") {
     unemployed.style.display = "none";
 } else {
     unemployed.style.display = "block";
+    
+    employment_form_01.style.display = "none";
+    industries.style.display = "none";
+    search_methods.style.display = "none";
+    address_form.style.display = "none";
 }
 
 status.addEventListener("change", function() {

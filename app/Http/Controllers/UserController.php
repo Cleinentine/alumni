@@ -132,11 +132,10 @@ class UserController extends Controller
         }
     }
 
-    public function changePasswordFrom(string $token)
+    public function changePasswordForm(string $token)
     {
         $hasValues = [1, 0, 0];
         $icons = ['fa-at', 'fa-key', 'fa-redo'];
-        $ids = ['email', 'password', 'password-confirmation'];
         $labels = ['Email', 'New Password', 'Repeat New Password'];
         $names = ['email', 'password', 'password_confirmation'];
         $placeholders = ['e.g. csuanako@email.com.ph', '', ''];
@@ -146,7 +145,7 @@ class UserController extends Controller
         return view('change', [
             'hasValues' => $hasValues,
             'icons' => $icons,
-            'ids' => $ids,
+            'ids' => $names,
             'labels' => $labels,
             'names' => $names,
             'placeholders' => $placeholders,
@@ -204,7 +203,7 @@ class UserController extends Controller
     {
         if (Auth::check() && $request->isMethod('POST')) {
             $validator = Validator::make($request->all(), [
-                'email' => 'required|email:rfc,dns|unique:users,email,'.Auth::user()->id,
+                'email' => 'required|email:rfc,dns|unique:users,email,' . Auth::user()->id,
                 'phone' => 'nullable|phone:mobile|phone:INTERNATIONAL,PH',
                 'password' => 'nullable|confirmed|regex:/^(?=.*[0-9])(?=.*[!@#$%^&*()])(?=.*[a-zA-Z0-9]).*$/',
                 'password_confirmation' => 'nullable',
@@ -250,9 +249,9 @@ class UserController extends Controller
                 'last_name' => 'required|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'birth_date' => 'required|date|before:-18 years',
                 'country' => 'required|exists:countries,id',
-                'state' => 'nullable|'.Rule::exists('states', 'id')->where('country_id', $request->country),
-                'city' => 'nullable|'.Rule::exists('cities', 'id')->where('state_id', $request->state),
-                'year_graduated' => 'required|integer|digits:4|min:1960|max:'.date('Y'),
+                'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
+                'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
+                'year_graduated' => 'required|integer|digits:4|min:1960|max:' . date('Y'),
                 'gender' => 'required|in:Male,Female',
                 'programs' => 'required|exists:programs,id',
 

@@ -154,20 +154,20 @@ class EmploymentController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function storeUpdate(Request $request)
     {
         if ($request->isMethod('POST') && Auth::user()->roles >= 3) {
             $validator = Validator::make($request->all(), [
                 'title' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'company' => 'nullable|max:50|regex:/^[a-zA-Z0-9\s]+$/',
                 'time_to_first_job' => 'nullable|integer|min:1|max:1000',
-                'status' => 'required|'.Rule::in($this->employment_statuses),
+                'status' => 'required|' . Rule::in($this->employment_statuses),
                 'industry' => 'nullable|exists:industries,id',
-                'search_methods' => 'nullable|'.Rule::in($this->search_methods),
+                'search_methods' => 'nullable|' . Rule::in($this->search_methods),
                 'unemployment' => 'nullable|max:100',
                 'country' => 'nullable|exists:countries,id',
-                'state' => 'nullable|'.Rule::exists('states', 'id')->where('country_id', $request->country),
-                'city' => 'nullable|'.Rule::exists('cities', 'id')->where('state_id', $request->state),
+                'state' => 'nullable|' . Rule::exists('states', 'id')->where('country_id', $request->country),
+                'city' => 'nullable|' . Rule::exists('cities', 'id')->where('state_id', $request->state),
             ]);
 
             if ($validator->fails()) {
@@ -177,6 +177,9 @@ class EmploymentController extends Controller
                     ->withInput();
             } else {
                 if ($request->status == 'Unemployed') {
+                    $request->country = null;
+                    $request->state = null;
+                    $request->city = null;
                     $request->title = null;
                     $request->company = null;
                     $request->time_to_first_job = null;
@@ -189,8 +192,11 @@ class EmploymentController extends Controller
                     $request->unemployment = '';
                 }
 
-                Employment::where('graduate_id', Auth::user()->graduate->id)
-                    ->update([
+                Employment::updateOrCreate(
+                    [
+                        'graduate_id' => Auth::user()->graduate->id,
+                    ],
+                    [
                         'industry_id' => $request->industry,
                         'country_id' => $request->country,
                         'state_id' => $request->state,
@@ -201,7 +207,8 @@ class EmploymentController extends Controller
                         'time_to_first_job' => $request->time_to_first_job,
                         'search_methods' => $request->search_methods,
                         'unemployment' => $request->unemployment,
-                    ]);
+                    ]
+                );
 
                 return redirect()
                     ->route('tracerEmployment')

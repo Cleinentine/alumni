@@ -22,12 +22,21 @@
                         </a>
                     </li>
                 @else
-                    <li class="inline">
-                        <a class="border-t-3 border-transparent duration-500 font-bold hover:border-yellow-400 inline-block p-3" href="{{ route('tracerGraduate') }}">
-                            TRACER
-                            <span><i class="fa-solid fa-address-book"></i></span>
-                        </a>
-                    </li>
+                    @if (Auth::user()->roles <= 2)
+                        <li class="inline">
+                            <a class="border-t-3 border-transparent duration-500 font-bold hover:border-yellow-400 inline-block p-3" href="/admin">
+                                ADMIN
+                                <span><i class="fa-solid fa-gauge-high"></i></span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="inline">
+                            <a class="border-t-3 border-transparent duration-500 font-bold hover:border-yellow-400 inline-block p-3" href="{{ route('tracerGraduate') }}">
+                                TRACER
+                                <span><i class="fa-solid fa-address-book"></i></span>
+                            </a>
+                        </li>
+                    @endif
                 @endif
 
                 <li class="inline">
@@ -70,12 +79,21 @@
         </li>
 
         @if (Auth::check())
-            <li>
-                <a class="flex duration-500 hover:bg-yellow-400 hover:text-black p-5 text-white" href="{{ route('tracerGraduate') }}">
-                    <span class="w-[10%]"><i class="fa-solid fa-address-book"></i></span>
-                    <span class="font-bold w-[90%]">Tracer</span>
-                </a>
-            </li>
+            @if (Auth::user()->roles <= 2)
+                <li>
+                    <a class="flex duration-500 hover:bg-yellow-400 hover:text-black p-5 text-white" href="/admin">
+                        <span class="w-[10%]"><i class="fa-solid fa-gauge-high"></i></span>
+                        <span class="font-bold w-[90%]">Admin</span>
+                    </a>
+                </li>
+            @else
+                <li>
+                    <a class="flex duration-500 hover:bg-yellow-400 hover:text-black p-5 text-white" href="{{ route('tracerGraduate') }}">
+                        <span class="w-[10%]"><i class="fa-solid fa-address-book"></i></span>
+                        <span class="font-bold w-[90%]">Tracer</span>
+                    </a>
+                </li>
+            @endif
         @else
             @php
                 $icons = ['fa-right-to-bracket', 'fa-user-plus', 'fa-paper-plane'];

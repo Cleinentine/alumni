@@ -16,8 +16,7 @@ class ProgramForm
                 TextInput::make('name')
                     ->required()
                     ->regex('/^[a-zA-Z0-9_ ]+$/')
-                    ->unique(Program::class, 'name')
-                    ->rule('exists:programs,name'),
+                    ->unique(Program::class, 'name'),
                 Select::make('college_id')
                     ->required()
                     ->label('College')

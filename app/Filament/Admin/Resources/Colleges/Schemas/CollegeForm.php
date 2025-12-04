@@ -16,7 +16,6 @@ class CollegeForm
                     ->required()
                     ->regex('/^[a-zA-Z0-9_ ]+$/')
                     ->unique(College::class, 'name')
-                    ->rule('exists:colleges,name'),
             ]);
     }
 }

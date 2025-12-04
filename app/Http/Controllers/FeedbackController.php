@@ -69,7 +69,7 @@ class FeedbackController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->isMethod('POST') && Auth::user()->role >= 3) {
+        if ($request->isMethod('POST') && Auth::user()->roles >= 3) {
             $validator = Validator::make($request->all(), [
                 'relevance' => 'required|numeric|digits:1|min:1|max:5',
                 'skills' => 'required|numeric|digits:1|min:1|max:5',

@@ -53,7 +53,7 @@ class GraduateForm
                     ->searchable()
                     ->reactive() // important for dependent selects
                     ->required()
-                    ->afterStateUpdated(fn ($state, callable $set) => $set('state_id', null)), // reset dependent
+                    ->afterStateUpdated(fn($state, callable $set) => $set('state_id', null)), // reset dependent
 
                 Select::make('state_id')
                     ->label('State')
@@ -67,7 +67,7 @@ class GraduateForm
                     })
                     ->searchable()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) => $set('city_id', null)),
+                    ->afterStateUpdated(fn($state, callable $set) => $set('city_id', null)),
 
                 Select::make('city_id')
                     ->label('City')
@@ -94,23 +94,16 @@ class GraduateForm
                         TextInput::make('password')
                             ->password()
                             ->revealable()
-                            ->nullable()
-
-                            // Only required on Create
-                            ->required(fn (string $context) => $context === 'create')
-
-                            // Only update if not empty (Edit only)
+                            ->required(fn(string $context) => $context === 'create')
+                            ->dehydrateStateUsing(fn($state) => filled($state) ? Hash::make($state) : null)
                             ->dehydrated(
-                                fn ($state, string $context) => $context === 'edit' && filled($state)
-                            )
-
-                            // Hash only when updating/saving
-                            ->dehydrateStateUsing(
-                                fn ($state) => filled($state) ? Hash::make($state) : null
+                                fn($state, string $context) =>
+                                $context === 'create' || filled($state)
                             ),
-                        Hidden::make('role')
-                            ->default(3) // for example
-                            ->dehydrated(),
+                        Hidden::make('roles')
+                            ->default(3)
+                            ->required()
+                            ->dehydrated(fn($state, $context) => $context === 'create')
                     ]),
 
                 Section::make('Employment')
@@ -169,7 +162,7 @@ class GraduateForm
                             })
                             ->searchable()
                             ->reactive() // important for dependent selects
-                            ->afterStateUpdated(fn ($state, callable $set) => $set('state_id', null)), // reset dependent
+                            ->afterStateUpdated(fn($state, callable $set) => $set('state_id', null)), // reset dependent
 
                         Select::make('state_id')
                             ->label('State')
@@ -183,7 +176,7 @@ class GraduateForm
                             })
                             ->searchable()
                             ->reactive()
-                            ->afterStateUpdated(fn ($state, callable $set) => $set('city_id', null)),
+                            ->afterStateUpdated(fn($state, callable $set) => $set('city_id', null)),
 
                         Select::make('city_id')
                             ->label('City')

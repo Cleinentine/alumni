@@ -173,6 +173,13 @@
                         </div>
 
                         <x-button icon="fa-paper-plane" text="Send Message" />
+                        
+                        @if (session('successMessage'))
+                            <div class="mt-10 text-center">
+                                <x-success-message :message="session('successMessage')" />
+                            </div>
+                        @endif
+                        </div>
                     </form>
                 </section>
             </div>

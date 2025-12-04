@@ -25,6 +25,11 @@ class FeedbackResource extends Resource
         return 3;
     }
 
+    public static function getRecordRouteKeyName(): string
+    {
+        return 'graduate_id';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return FeedbackForm::configure($schema);

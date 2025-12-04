@@ -115,7 +115,7 @@ Route::get('tracer/account', [UserController::class, 'index'])
     ->name('tracerAccount');
 
 Route::post('tracer/graduate', [GraduateController::class, 'update'])->middleware(['auth', 'verified']);
-Route::post('tracer/employment', [EmploymentController::class, 'update'])->middleware(['auth', 'verified']);
+Route::post('tracer/employment', [EmploymentController::class, 'storeUpdate'])->middleware(['auth', 'verified']);
 Route::post('tracer/feedback', [FeedbackController::class, 'store'])->middleware(['auth', 'verified']);
 Route::post('tracer/account', [UserController::class, 'update'])->middleware(['auth', 'verified']);
 

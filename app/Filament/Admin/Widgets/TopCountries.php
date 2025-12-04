@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Widgets;
 
 use App\Models\Employment;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\DB;
 
 class TopCountries extends ChartWidget
 {
@@ -15,17 +16,14 @@ class TopCountries extends ChartWidget
 
     protected function getData(): array
     {
-        $topCountries = Employment::selectRaw('country_id, COUNT(*) as employed_count')
-            ->groupBy('country_id')
+        $topCountries = Employment::join('countries', 'countries.id', '=', 'employments.country_id')
+            ->select('employments.country_id', 'countries.name as country_name', DB::raw('COUNT(*) as employed_count'))
+            ->groupBy('employments.country_id', 'countries.name')
             ->orderByDesc('employed_count')
             ->limit(5)
-            ->with('country')
             ->get();
 
-        $labels = $topCountries
-            ->filter(fn ($c) => $c->country !== null)
-            ->map(fn ($c) => $c->country->name)
-            ->toArray();
+        $labels = $topCountries->pluck('country_name')->toArray();
         $data = $topCountries->pluck('employed_count')->toArray();
 
         $topCompanies = $topCountries->map(function ($c) {
@@ -47,7 +45,7 @@ class TopCountries extends ChartWidget
                     'tooltip' => [
                         'callbacks' => [
                             'afterLabel' => function ($context) use ($topCompanies) {
-                                return 'Top Companies: '.$topCompanies[$context['dataIndex']];
+                                return 'Top Companies: ' . $topCompanies[$context['dataIndex']];
                             },
                         ],
                     ],
